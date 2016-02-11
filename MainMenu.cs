@@ -17,7 +17,7 @@ namespace Slip
 
         private static void StartDemo(Main main)
         {
-            main.changeScreen = new DemoScreen();
+            main.changeScreen = new GameScreen();
         }
     }
 }
