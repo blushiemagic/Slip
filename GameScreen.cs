@@ -29,6 +29,13 @@ namespace Slip
                     floor[x, y] = 1;
                 }
             }
+            for (int x = 20; x < 30; x++)
+            {
+                for (int y = 20; y < 30; y++)
+                {
+                    floor[x, y] = 2;
+                }
+            }
         }
 
         public override void UpdateScreen(Main main)
@@ -42,15 +49,11 @@ namespace Slip
             {
                 for (int y = 0; y < floorHeight; y++)
                 {
-                    Texture2D texture = null;
-                    if (floor[x, y] == 1)
-                    {
-                        texture = floorTexture;
-                    }
+                    Texture2D texture = floorTexture[floor[x, y]];
                     if (texture != null)
                     {
                         Vector2 worldPos = tileSize * new Vector2(x, y);
-                        main.spriteBatch.Draw(floorTexture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
+                        main.spriteBatch.Draw(texture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
                     }
                 }
             }
@@ -62,13 +65,15 @@ namespace Slip
             return size / 2f + pos - player.position;
         }
 
-        private Texture2D floorTexture;
+        private Texture2D[] floorTexture;
 
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
             Player.LoadContent(loader);
-            floorTexture = loader.Load<Texture2D>("Floor");
+            floorTexture = new Texture2D[3];
+            floorTexture[1] = loader.Load<Texture2D>("Floor1");
+            floorTexture[2] = loader.Load<Texture2D>("Floor2");
         }
     }
 }
