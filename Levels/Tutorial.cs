@@ -7,22 +7,26 @@ namespace Slip.Levels
 {
     public class Tutorial : GameScreen
     {
-        public override void SetupLevel()
+        Room startRoom;
+
+        public override Room SetupLevel()
         {
-            for (int x = 0; x < floorWidth; x++)
+            startRoom = new Room();
+            for (int x = 0; x < startRoom.floorWidth; x++)
             {
-                for (int y = 0; y < floorHeight; y++)
+                for (int y = 0; y < startRoom.floorHeight; y++)
                 {
-                    floor[x, y] = 1;
+                    startRoom.floor[x, y] = 1;
                 }
             }
             for (int x = 20; x < 30; x++)
             {
                 for (int y = 20; y < 30; y++)
                 {
-                    floor[x, y] = 2;
+                    startRoom.floor[x, y] = 2;
                 }
             }
+            return startRoom;
         }
 
         public override void LoadContent(ContentManager loader)

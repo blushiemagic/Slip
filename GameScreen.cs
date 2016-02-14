@@ -9,37 +9,39 @@ namespace Slip
     public abstract class GameScreen : Screen
     {
         public const int tileSize = 40;
-
+        
         public Player player;
-        public int floorWidth;
-        public int floorHeight;
-        public byte[,] floor;
+        public Room currentRoom;
 
         public override void Initialize(Main main)
         {
             base.Initialize(main);
             player = new Player();
             player.position = new Vector2(tileSize / 2f, tileSize / 2f);
-            floorWidth = 50;
-            floorHeight = 50;
-            floor = new byte[floorWidth, floorHeight];
-            SetupLevel();
+            currentRoom = SetupLevel();
         }
 
-        public abstract void SetupLevel();
+        public abstract Room SetupLevel();
 
         public override void UpdateScreen(Main main)
         {
             player.Move();
         }
 
+        public void ChangeRoom(Room room, Vector2 position)
+        {
+            currentRoom = room;
+            player.position = position;
+            room.EnterRoom(player);
+        }
+
         public override void DrawScreen(Main main)
         {
-            for (int x = 0; x < floorWidth; x++)
+            for (int x = 0; x < currentRoom.floorWidth; x++)
             {
-                for (int y = 0; y < floorHeight; y++)
+                for (int y = 0; y < currentRoom.floorHeight; y++)
                 {
-                    Texture2D texture = floorTexture[floor[x, y]];
+                    Texture2D texture = floorTexture[currentRoom.floor[x, y]];
                     if (texture != null)
                     {
                         Vector2 worldPos = tileSize * new Vector2(x, y);
