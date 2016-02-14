@@ -8,6 +8,7 @@ namespace Slip
         public int floorWidth;
         public int floorHeight;
         public byte[,] floor;
+        public byte[,] wall;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
 
@@ -16,6 +17,7 @@ namespace Slip
             floorWidth = width;
             floorHeight = height;
             floor = new byte[width, height];
+            wall = new byte[width, height];
         }
 
         public void EnterRoom(Player player)

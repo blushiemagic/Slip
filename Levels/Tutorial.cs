@@ -26,6 +26,16 @@ namespace Slip.Levels
                     startRoom.floor[x, y] = 2;
                 }
             }
+            for (int x = 22; x < 28; x++)
+            {
+                startRoom.wall[x, 17] = 1;
+                startRoom.wall[x, 32] = 1;
+            }
+            for (int y = 22; y < 28; y++)
+            {
+                startRoom.wall[17, y] = 1;
+                startRoom.wall[32, y] = 1;
+            }
             return startRoom;
         }
 
@@ -35,6 +45,8 @@ namespace Slip.Levels
             floorTexture = new Texture2D[3];
             floorTexture[1] = loader.Load<Texture2D>("Floor1");
             floorTexture[2] = loader.Load<Texture2D>("Floor2");
+            wallTexture = new Texture2D[2];
+            wallTexture[1] = loader.Load<Texture2D>("Wall1");
         }
     }
 }

@@ -50,6 +50,18 @@ namespace Slip
                 }
             }
             player.Draw(main);
+            for (int x = 0; x < currentRoom.floorWidth; x++)
+            {
+                for (int y = 0; y < currentRoom.floorHeight; y++)
+                {
+                    Texture2D texture = wallTexture[currentRoom.wall[x, y]];
+                    if (texture != null)
+                    {
+                        Vector2 worldPos = tileSize * new Vector2(x, y);
+                        main.spriteBatch.Draw(texture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
+                    }
+                }
+            }
         }
 
         public Vector2 DrawPos(Main main, Vector2 pos)
@@ -58,6 +70,7 @@ namespace Slip
         }
 
         protected Texture2D[] floorTexture;
+        protected Texture2D[] wallTexture;
 
         public override void LoadContent(ContentManager loader)
         {
