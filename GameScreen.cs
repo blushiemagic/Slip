@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Slip
 {
-    public class GameScreen : Screen
+    public abstract class GameScreen : Screen
     {
         public const int tileSize = 40;
 
@@ -19,24 +19,14 @@ namespace Slip
         {
             base.Initialize(main);
             player = new Player();
+            player.position = new Vector2(tileSize / 2f, tileSize / 2f);
             floorWidth = 50;
             floorHeight = 50;
             floor = new byte[floorWidth, floorHeight];
-            for (int x = 0; x < floorWidth; x++)
-            {
-                for (int y = 0; y < floorHeight; y++)
-                {
-                    floor[x, y] = 1;
-                }
-            }
-            for (int x = 20; x < 30; x++)
-            {
-                for (int y = 20; y < 30; y++)
-                {
-                    floor[x, y] = 2;
-                }
-            }
+            SetupLevel();
         }
+
+        public abstract void SetupLevel();
 
         public override void UpdateScreen(Main main)
         {
@@ -65,15 +55,12 @@ namespace Slip
             return size / 2f + pos - player.position;
         }
 
-        private Texture2D[] floorTexture;
+        protected Texture2D[] floorTexture;
 
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
             Player.LoadContent(loader);
-            floorTexture = new Texture2D[3];
-            floorTexture[1] = loader.Load<Texture2D>("Floor1");
-            floorTexture[2] = loader.Load<Texture2D>("Floor2");
         }
     }
 }

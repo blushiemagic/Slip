@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Slip.Levels;
 
 namespace Slip
 {
@@ -17,7 +18,7 @@ namespace Slip
 
         private static void StartDemo(Main main)
         {
-            main.changeScreen = new GameScreen();
+            main.changeScreen = new Tutorial();
         }
     }
 }

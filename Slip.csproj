@@ -43,6 +43,7 @@
     <Compile Include="Component.cs" />
     <Compile Include="DemoScreen.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Levels\Tutorial.cs" />
     <Compile Include="Logs.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MainMenu.cs" />
