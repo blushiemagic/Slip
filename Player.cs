@@ -10,10 +10,31 @@ namespace Slip
     public class Player
     {
         public static Texture2D texture;
+        public const int size = 20;
         public Vector2 position;
         public bool dead;
 
-        public void Move()
+        public Vector2 TopLeft
+        {
+            get
+            {
+                return position - 0.5f * new Vector2(size, size);
+            }
+            set
+            {
+                position = value + 0.5f * new Vector2(size, size);
+            }
+        }
+
+        public Hitbox hitbox
+        {
+            get
+            {
+                return new Hitbox(position, size, size);
+            }
+        }
+
+        public void Move(Room room)
         {
             Vector2 velocity = Vector2.Zero;
             if (Main.IsKeyPressed(Keys.Up))
@@ -36,7 +57,7 @@ namespace Slip
             {
                 velocity.Normalize();
                 velocity *= 4f;
-                position += velocity;
+                TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room);
             }
         }
 

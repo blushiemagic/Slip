@@ -17,7 +17,7 @@ namespace Slip
         {
             base.Initialize(main);
             player = new Player();
-            player.position = new Vector2(tileSize / 2f, tileSize / 2f);
+            player.position = new Vector2(tileSize * 1.5f, tileSize * 1.5f);
             currentRoom = SetupLevel();
         }
 
@@ -25,7 +25,7 @@ namespace Slip
 
         public override void UpdateScreen(Main main)
         {
-            player.Move();
+            player.Move(currentRoom);
         }
 
         public void ChangeRoom(Room room, Vector2 position)

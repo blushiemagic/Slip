@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Collision.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Component.cs" />
