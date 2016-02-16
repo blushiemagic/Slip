@@ -14,7 +14,6 @@ namespace Slip
 
         public override void Draw(Main main)
         {
-            Logs.ClearLog();
             Vector2 canvasSize = CanvasSize;
             Vector2 pos = Position;
             int spaceWidth = Textures.Panel.Width - 2 * panelBorder;

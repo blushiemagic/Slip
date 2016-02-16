@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Screen.cs" />
+    <Compile Include="TextPanel.cs" />
     <Compile Include="Textures.cs" />
   </ItemGroup>
   <ItemGroup>

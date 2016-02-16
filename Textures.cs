@@ -6,10 +6,12 @@ namespace Slip
 {
     public static class Textures
     {
+        public static SpriteFont Font;
         public static Texture2D Panel;
 
         public static void LoadContent(ContentManager loader)
         {
+            Font = loader.Load<SpriteFont>("Font");
             Panel = loader.Load<Texture2D>("Panel");
         }
     }

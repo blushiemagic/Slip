@@ -17,5 +17,12 @@ namespace Slip
             spriteBatch.Draw(texture, position, sourceRectangle, color, 0f, origin, 1f,
                 flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 1f);
         }
+
+        public static void DrawCenteredString(this SpriteBatch spriteBatch, SpriteFont spriteFont,
+            string text, Vector2 position, Color color)
+        {
+            Vector2 size = spriteFont.MeasureString(text);
+            spriteBatch.DrawString(spriteFont, text, position - size / 2f, color);
+        }
     }
 }
