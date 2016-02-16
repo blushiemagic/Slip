@@ -37,9 +37,11 @@ namespace Slip
 
         public override void DrawScreen(Main main)
         {
-            for (int x = 0; x < currentRoom.floorWidth; x++)
+            int startTileX, endTileX, startTileY, endTileY;
+            ScreenBoundTiles(out startTileX, out endTileX, out startTileY, out endTileY);
+            for (int x = startTileX; x <= endTileX; x++)
             {
-                for (int y = 0; y < currentRoom.floorHeight; y++)
+                for (int y = startTileY; y <= endTileY; y++)
                 {
                     Texture2D texture = floorTexture[currentRoom.floor[x, y]];
                     if (texture != null)
@@ -50,9 +52,9 @@ namespace Slip
                 }
             }
             player.Draw(main);
-            for (int x = 0; x < currentRoom.floorWidth; x++)
+            for (int x = startTileX; x <= endTileX; x++)
             {
-                for (int y = 0; y < currentRoom.floorHeight; y++)
+                for (int y = startTileY; y <= endTileY; y++)
                 {
                     Texture2D texture = wallTexture[currentRoom.wall[x, y]];
                     if (texture != null)
@@ -61,6 +63,51 @@ namespace Slip
                         main.spriteBatch.Draw(texture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
                     }
                 }
+            }
+        }
+
+        public bool BoxOnScreen(Hitbox box)
+        {
+            if (box.topLeft.X > size.X / 2f + player.position.X)
+            {
+                return false;
+            }
+            if (box.topRight.X < -size.X / 2f + player.position.X)
+            {
+                return false;
+            }
+            if (box.topLeft.Y > size.Y / 2f + player.position.Y)
+            {
+                return false;
+            }
+            if (box.bottomLeft.Y * tileSize < -size.Y / 2f + player.position.Y)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void ScreenBoundTiles(out int left, out int right, out int top, out int bottom)
+        {
+            left = (int)Math.Floor((-size.X / 2f + player.position.X) / tileSize);
+            if (left < 0)
+            {
+                left = 0;
+            }
+            right = (int)Math.Floor((size.X / 2f + player.position.X) / tileSize);
+            if (right >= currentRoom.floorWidth)
+            {
+                right = currentRoom.floorWidth - 1;
+            }
+            top = (int)Math.Floor((-size.Y / 2f + player.position.Y) / tileSize);
+            if (top < 0)
+            {
+                top = 0;
+            }
+            bottom = (int)Math.Floor((size.Y / 2f + player.position.Y) / tileSize);
+            if (bottom >= currentRoom.floorHeight)
+            {
+                bottom = currentRoom.floorHeight - 1;
             }
         }
 

@@ -27,5 +27,19 @@ namespace Slip
                 OnEnter(player);
             }
         }
+
+        public void AddWallBorder(int left, int right, int top, int bottom, byte type = 1)
+        {
+            for (int x = left; x <= right; x++)
+            {
+                wall[x, top] = type;
+                wall[x, bottom] = type;
+            }
+            for (int y = top; y <= bottom; y++)
+            {
+                wall[left, y] = type;
+                wall[right, y] = type;
+            }
+        }
     }
 }

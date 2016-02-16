@@ -26,16 +26,7 @@ namespace Slip.Levels
                     startRoom.floor[x, y] = 2;
                 }
             }
-            for (int x = 0; x < startRoom.floorWidth; x++)
-            {
-                startRoom.wall[x, 0] = 1;
-                startRoom.wall[x, startRoom.floorHeight - 1] = 1;
-            }
-            for (int y = 0; y < startRoom.floorHeight; y++)
-            {
-                startRoom.wall[0, y] = 1;
-                startRoom.wall[startRoom.floorWidth - 1, y] = 1;
-            }
+            startRoom.AddWallBorder(0, startRoom.floorWidth - 1, 0, startRoom.floorHeight - 1);
             for (int x = 22; x < 28; x++)
             {
                 startRoom.wall[x, 17] = 1;
