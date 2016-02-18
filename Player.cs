@@ -12,7 +12,8 @@ namespace Slip
         public static Texture2D texture;
         public const int size = 20;
         public Vector2 position;
-        public bool dead;
+        public int life = 1;
+        public int maxLife = 1;
 
         public Vector2 TopLeft
         {
@@ -32,6 +33,11 @@ namespace Slip
             {
                 return new Hitbox(position, size, size);
             }
+        }
+
+        public void Update(Room room)
+        {
+            Move(room);
         }
 
         public void Move(Room room)

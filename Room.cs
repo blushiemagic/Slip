@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Slip
 {
@@ -9,6 +10,7 @@ namespace Slip
         public int floorHeight;
         public byte[,] floor;
         public byte[,] wall;
+        public List<Enemy> enemies;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
 
@@ -18,6 +20,7 @@ namespace Slip
             floorHeight = height;
             floor = new byte[width, height];
             wall = new byte[width, height];
+            enemies = new List<Enemy>();
         }
 
         public void EnterRoom(Player player)
@@ -26,6 +29,11 @@ namespace Slip
             {
                 OnEnter(player);
             }
+        }
+
+        public static Vector2 TileToWorldPos(int x, int y)
+        {
+            return GameScreen.tileSize * new Vector2(x, y);
         }
 
         public void AddWallBorder(int left, int right, int top, int bottom, byte type = 1)
