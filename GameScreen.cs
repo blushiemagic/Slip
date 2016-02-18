@@ -25,7 +25,11 @@ namespace Slip
 
         public override void UpdateScreen(Main main)
         {
-            player.Move(currentRoom);
+            foreach (Enemy enemy in currentRoom.enemies)
+            {
+                enemy.Update(currentRoom);
+            }
+            player.Update(currentRoom);
         }
 
         public void ChangeRoom(Room room, Vector2 position)
@@ -50,6 +54,10 @@ namespace Slip
                         main.spriteBatch.Draw(texture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
                     }
                 }
+            }
+            foreach (Enemy enemy in currentRoom.enemies)
+            {
+                enemy.Draw(this, main);
             }
             player.Draw(main);
             for (int x = startTileX; x <= endTileX; x++)
