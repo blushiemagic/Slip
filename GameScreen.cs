@@ -72,6 +72,13 @@ namespace Slip
                     }
                 }
             }
+            DrawHUD(main);
+        }
+
+        private void DrawHUD(Main main)
+        {
+            string text = "LVL1  HP:" + player.life + "/" + player.maxLife + "  EXP:0/9999";
+            main.spriteBatch.DrawBorderString(Textures.Font, text, new Vector2(10f, 10f), Color.White, Color.Black, 2);
         }
 
         public bool BoxOnScreen(Hitbox box)

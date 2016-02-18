@@ -24,5 +24,18 @@ namespace Slip
             Vector2 size = spriteFont.MeasureString(text);
             spriteBatch.DrawString(spriteFont, text, position - size / 2f, color);
         }
+
+        public static void DrawBorderString(this SpriteBatch spriteBatch, SpriteFont spriteFont,
+            string text, Vector2 position, Color color, Color borderColor, int borderSize = 1)
+        {
+            for (int x = -borderSize; x <= borderSize; x++)
+            {
+                for (int y = -borderSize; y <= borderSize; y++)
+                {
+                    spriteBatch.DrawString(spriteFont, text, position + new Vector2(x, y), borderColor);
+                }
+            }
+            spriteBatch.DrawString(spriteFont, text, position, color);
+        }
     }
 }
