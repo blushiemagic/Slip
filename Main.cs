@@ -9,6 +9,7 @@ namespace Slip
     public class Main : Game
     {
         internal static Main instance;
+        public static Random rand = new Random();
 
         internal GraphicsDeviceManager graphics;
         internal SpriteBatch spriteBatch;

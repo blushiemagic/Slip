@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Slip
@@ -21,6 +22,11 @@ namespace Slip
         public override void Draw(GameScreen screen, Main main)
         {
             main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, Color.White, texture.Center());
+        }
+
+        public static void LoadContent(ContentManager loader)
+        {
+            texture = loader.Load<Texture2D>("Turret");
         }
     }
 }

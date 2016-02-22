@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Slip.Puzzles;
 
 namespace Slip.Levels
 {
@@ -27,6 +28,8 @@ namespace Slip.Levels
                 startRoom.tiles[32, y].Wall = 1;
             }
             startRoom.enemies.Add(new Turret(Room.TileToWorldPos(25, 25)));
+            startRoom.AddPuzzle(1, 1, new Checkpoint());
+            startRoom.AddPuzzle(startRoom.width - 2, startRoom.height - 2, new Checkpoint());
             return startRoom;
         }
 
@@ -36,7 +39,7 @@ namespace Slip.Levels
             floorTexture[1] = loader.Load<Texture2D>("Floor1");
             floorTexture[2] = loader.Load<Texture2D>("Floor2");
             wallTexture[1] = loader.Load<Texture2D>("Wall1");
-            Turret.texture = loader.Load<Texture2D>("Turret");
+            Turret.LoadContent(loader);
         }
     }
 }

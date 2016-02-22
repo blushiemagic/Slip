@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Slip.Particles;
 
 namespace Slip.Puzzles
 {
@@ -16,7 +18,13 @@ namespace Slip.Puzzles
 
         public override void Update(Room room, int x, int y)
         {
-            
+            Vector2 offset = new Vector2((float)Main.rand.NextDouble() * 40f - 20f, (float)Main.rand.NextDouble() * 40f - 20f);
+            room.particles.AddParticle(new Sparkle(position + offset));
+        }
+
+        public static void LoadContent(ContentManager loader)
+        {
+            Sparkle.LoadContent(loader);
         }
     }
 }

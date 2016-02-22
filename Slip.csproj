@@ -39,6 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collision.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleList.cs" />
+    <Compile Include="Particles\Sparkle.cs" />
     <Compile Include="Puzzles\Checkpoint.cs" />
     <Compile Include="Puzzles\Door.cs" />
     <Compile Include="Enemy.cs" />
@@ -97,6 +100,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sparkle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Turret.png">

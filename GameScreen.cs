@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Slip.Puzzles;
 
 namespace Slip
 {
@@ -34,6 +35,7 @@ namespace Slip
             {
                 currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y);
             }
+            currentRoom.particles.UpdateParticles(currentRoom);
         }
 
         public void ChangeRoom(Room room, Vector2 position)
@@ -80,6 +82,7 @@ namespace Slip
                     }
                 }
             }
+            currentRoom.particles.DrawParticles(this, main);
             DrawHUD(main);
         }
 
@@ -146,6 +149,7 @@ namespace Slip
         {
             base.LoadContent(loader);
             Player.LoadContent(loader);
+            Checkpoint.LoadContent(loader);
         }
     }
 }

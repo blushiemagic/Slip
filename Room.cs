@@ -11,6 +11,7 @@ namespace Slip
         public Tile[,] tiles;
         public List<Enemy> enemies;
         public List<Point> puzzleCache;
+        public ParticleList particles;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
 
@@ -28,6 +29,7 @@ namespace Slip
             }
             enemies = new List<Enemy>();
             puzzleCache = new List<Point>();
+            particles = new ParticleList();
         }
 
         public void EnterRoom(Player player)
