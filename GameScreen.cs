@@ -13,6 +13,8 @@ namespace Slip
         
         public Player player;
         public Room currentRoom;
+        private int reviveTimer;
+        private const int maxReviveTimer = 120;
 
         public override void Initialize(Main main)
         {
@@ -26,14 +28,28 @@ namespace Slip
 
         public override void UpdateScreen(Main main)
         {
+            if (player.life <= 0)
+            {
+                reviveTimer++;
+                if (reviveTimer >= maxReviveTimer)
+                {
+                    player.Revive(this);
+                    reviveTimer = 0;
+                }
+                return;
+            }
+            player.Update(currentRoom);
             foreach (Enemy enemy in currentRoom.enemies)
             {
                 enemy.Update(currentRoom);
+                if (enemy.Collides(player))
+                {
+                    player.TakeDamage(1);
+                }
             }
-            player.Update(currentRoom);
             foreach (Point pos in currentRoom.puzzleCache)
             {
-                currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y);
+                currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y, player);
             }
             currentRoom.particles.UpdateParticles(currentRoom);
         }
@@ -83,6 +99,12 @@ namespace Slip
                 }
             }
             currentRoom.particles.DrawParticles(this, main);
+            if (player.life <= 0)
+            {
+                float alpha = 0.1f + 0.4f * ((float)reviveTimer / (float)maxReviveTimer);
+                main.spriteBatch.Draw(Textures.Pixel, Vector2.Zero, null, Color.Black * alpha, 0f, Vector2.Zero,
+                    size, SpriteEffects.None, 0f);
+            }
             DrawHUD(main);
         }
 
@@ -90,6 +112,12 @@ namespace Slip
         {
             string text = "LVL1  HP:" + player.life + "/" + player.maxLife + "  EXP:0/9999";
             main.spriteBatch.DrawBorderString(Textures.Font, text, new Vector2(10f, 10f), Color.White, Color.Black, 2);
+            if (player.life <= 0)
+            {
+                text = "YOU HAVE DIED!";
+                main.spriteBatch.DrawCenteredBorderString(Textures.Font, text, size / 2f + new Vector2(0f, 50f),
+                    Color.White, Color.Black, 2);
+            }
         }
 
         public bool BoxOnScreen(Hitbox box)

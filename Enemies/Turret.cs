@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Slip
+namespace Slip.Enemies
 {
     // This is the general class for turrets. All other turrets are descendants of this class. 
     public class Turret : Enemy
@@ -12,7 +12,7 @@ namespace Slip
         public static Texture2D texture;
         public bool dead;
 
-        public Turret(Vector2 pos) : base(pos) { }
+        public Turret(Vector2 pos) : base(pos, 20f) { }
 
         public override void Update(Room room)
         {

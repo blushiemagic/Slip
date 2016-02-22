@@ -8,7 +8,7 @@ namespace Slip
         {
         }
 
-        public virtual void Update(Room room, int x, int y)
+        public virtual void Update(Room room, int x, int y, Player player)
         {
         }
 

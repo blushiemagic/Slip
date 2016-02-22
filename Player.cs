@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Slip.Puzzles;
 
 namespace Slip
 {
@@ -14,6 +15,8 @@ namespace Slip
         public Vector2 position;
         public int life = 1;
         public int maxLife = 1;
+        public int invincible = 0;
+        public Checkpoint lastCheckpoint;
 
         public Vector2 TopLeft
         {
@@ -62,6 +65,10 @@ namespace Slip
                     }
                 }
             }
+            if (invincible > 0)
+            {
+                invincible--;
+            }
         }
 
         public void Move(Room room)
@@ -91,9 +98,33 @@ namespace Slip
             }
         }
 
+        public void TakeDamage(int damage)
+        {
+            if (invincible <= 0)
+            {
+                life -= damage;
+                if (life < 0)
+                {
+                    life = 0;
+                }
+                invincible = 60;
+            }
+        }
+
+        public void Revive(GameScreen screen)
+        {
+            life = maxLife;
+            screen.ChangeRoom(lastCheckpoint.room, lastCheckpoint.position);
+        }
+
         public void Draw(Main main)
         {
-            main.spriteBatch.Draw(texture, main.Center(), null, Color.White, texture.Center());
+            Color color = Color.White;
+            if (invincible > 0)
+            {
+                color *= 0.75f;
+            }
+            main.spriteBatch.Draw(texture, main.Center(), null, color, texture.Center());
         }
 
         public static void LoadContent(ContentManager loader)

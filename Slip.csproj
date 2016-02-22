@@ -65,7 +65,7 @@
     <Compile Include="TextPanel.cs" />
     <Compile Include="Textures.cs" />
     <Compile Include="Tile.cs" />
-    <Compile Include="Turret.cs" />
+    <Compile Include="Enemies\Turret.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -97,6 +97,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Panel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Pixel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Player.png">

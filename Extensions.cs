@@ -37,5 +37,12 @@ namespace Slip
             }
             spriteBatch.DrawString(spriteFont, text, position, color);
         }
+
+        public static void DrawCenteredBorderString(this SpriteBatch spriteBatch, SpriteFont spriteFont,
+            string text, Vector2 position, Color color, Color borderColor, int borderSize = 1)
+        {
+            Vector2 size = spriteFont.MeasureString(text);
+            spriteBatch.DrawBorderString(spriteFont, text, position - size / 2f, color, borderColor, borderSize);
+        }
     }
 }
