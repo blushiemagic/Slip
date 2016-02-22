@@ -10,6 +10,7 @@ namespace Slip
         public int height;
         public Tile[,] tiles;
         public List<Enemy> enemies;
+        public List<Point> puzzleCache;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
 
@@ -26,6 +27,7 @@ namespace Slip
                 }
             }
             enemies = new List<Enemy>();
+            puzzleCache = new List<Point>();
         }
 
         public void EnterRoom(Player player)
@@ -39,6 +41,25 @@ namespace Slip
         public static Vector2 TileToWorldPos(int x, int y)
         {
             return GameScreen.tileSize * new Vector2(x, y);
+        }
+
+        public void AddPuzzle(int x, int y, Puzzle puzzle)
+        {
+            if (tiles[x, y].puzzle == null)
+            {
+                puzzleCache.Add(new Point(x, y));
+            }
+            tiles[x, y].puzzle = puzzle;
+            puzzle.Initialize(this, x, y);
+        }
+
+        public void RemovePuzzle(int x, int y)
+        {
+            if (tiles[x, y].puzzle != null)
+            {
+                tiles[x, y].puzzle = null;
+                puzzleCache.Remove(new Point(x, y));
+            }
         }
 
         public void FillFloor(int left, int right, int top, int bottom, byte type = 1)

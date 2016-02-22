@@ -30,6 +30,10 @@ namespace Slip
                 enemy.Update(currentRoom);
             }
             player.Update(currentRoom);
+            foreach (Point pos in currentRoom.puzzleCache)
+            {
+                currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y);
+            }
         }
 
         public void ChangeRoom(Room room, Vector2 position)
@@ -54,6 +58,10 @@ namespace Slip
                         main.spriteBatch.Draw(texture, DrawPos(main, worldPos), null, Color.White, Vector2.Zero);
                     }
                 }
+            }
+            foreach (Point pos in currentRoom.puzzleCache)
+            {
+                currentRoom.tiles[pos.X, pos.Y].puzzle.Draw(this, main);
             }
             foreach (Enemy enemy in currentRoom.enemies)
             {
@@ -131,8 +139,8 @@ namespace Slip
             return size / 2f + pos - player.position;
         }
 
-        protected Texture2D[] floorTexture = new Texture2D[8];
-        protected Texture2D[] wallTexture = new Texture2D[8];
+        protected Texture2D[] floorTexture = new Texture2D[Tile.numFloors];
+        protected Texture2D[] wallTexture = new Texture2D[Tile.numWalls];
 
         public override void LoadContent(ContentManager loader)
         {

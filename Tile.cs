@@ -7,14 +7,14 @@ namespace Slip
         public const int tileSize = 40;
 
         private byte data;
-        private const byte floorBits = 1 | 2 | 4;
+        private const byte floorBits = 1 | 2 | 4 | 8;
         private const byte floorBitOffset = 0;
-        private const byte floorSize = 1 << 3;
-        private const byte wallBits = 8 | 16 | 32;
-        private const byte wallBitOffset = 3;
-        private const byte wallSize = 1 << 3;
-        private const byte checkpointBit = 64;
-        private const byte checkpointBitOffset = 6;
+        public const byte numFloors = 1 << 4;
+        private const byte wallBits = 16 | 32 | 64 | 128;
+        private const byte wallBitOffset = 4;
+        public const byte numWalls = 1 << 4;
+
+        internal Puzzle puzzle;
 
         public byte Floor
         {
@@ -24,9 +24,9 @@ namespace Slip
             }
             set
             {
-                if (value >= floorSize)
+                if (value >= numFloors)
                 {
-                    throw new ArgumentOutOfRangeException("Floor must be <= " + floorSize);
+                    throw new ArgumentOutOfRangeException("Floor must be <= " + numFloors);
                 }
                 data = (byte)((data & ~floorBits) | (value << floorBitOffset));
             }
@@ -36,34 +36,15 @@ namespace Slip
         {
             get
             {
-                return (byte)((data & wallBits) >> 3);
+                return (byte)((data & wallBits) >> wallBitOffset);
             }
             set
             {
-                if (value >= wallSize)
+                if (value >= numWalls)
                 {
-                    throw new ArgumentOutOfRangeException("Wall must be <= " + wallSize);
+                    throw new ArgumentOutOfRangeException("Wall must be <= " + numWalls);
                 }
                 data = (byte)((data & ~wallBits) | (value << wallBitOffset));
-            }
-        }
-
-        public bool Checkpoint
-        {
-            get
-            {
-                return (data & checkpointBit) == checkpointBit;
-            }
-            set
-            {
-                if (value)
-                {
-                    data = (byte)(data | checkpointBit);
-                }
-                else
-                {
-                    data = (byte)(data & ~checkpointBit);
-                }
             }
         }
     }

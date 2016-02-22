@@ -35,9 +35,33 @@ namespace Slip
             }
         }
 
+        public float radius
+        {
+            get
+            {
+                return size / 2f;
+            }
+        }
+
         public void Update(Room room)
         {
             Move(room);
+            Hitbox box = hitbox;
+            int left = (int)Math.Floor(box.topLeft.X / Tile.tileSize);
+            int right = (int)Math.Ceiling(box.topRight.X / Tile.tileSize);
+            int top = (int)Math.Floor(box.topLeft.Y / Tile.tileSize);
+            int bottom = (int)Math.Ceiling(box.bottomLeft.Y / Tile.tileSize);
+            for (int x = left; x < right; x++)
+            {
+                for (int y = left; y < right; y++)
+                {
+                    Puzzle puzzle = room.tiles[x, y].puzzle;
+                    if (puzzle != null)
+                    {
+                        puzzle.OnPlayerCollide(room, x, y, this);
+                    }
+                }
+            }
         }
 
         public void Move(Room room)

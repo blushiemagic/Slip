@@ -69,7 +69,7 @@ namespace Slip
                     int yEnd = (int)Math.Ceiling((box.bottomRight.Y + yDistance) / tileSize) - 1;
                     while (y <= yEnd)
                     {
-                        if (room.tiles[x, y].Wall > 0)
+                        if (SolidTile(room.tiles[x, y]))
                         {
                             return new CollideLine
                             {
@@ -97,7 +97,7 @@ namespace Slip
                     int yEnd = (int)Math.Ceiling((box.bottomLeft.Y + yDistance) / tileSize) - 1;
                     while (y <= yEnd)
                     {
-                        if (room.tiles[x - 1, y].Wall > 0)
+                        if (SolidTile(room.tiles[x - 1, y]))
                         {
                             return new CollideLine
                             {
@@ -130,7 +130,7 @@ namespace Slip
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
                     while (x <= xEnd)
                     {
-                        if (room.tiles[x, y].Wall > 0)
+                        if (SolidTile(room.tiles[x, y]))
                         {
                             return new CollideLine
                             {
@@ -158,7 +158,7 @@ namespace Slip
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
                     while (x <= xEnd)
                     {
-                        if (room.tiles[x, y - 1].Wall > 0)
+                        if (SolidTile(room.tiles[x, y - 1]))
                         {
                             return new CollideLine
                             {
@@ -175,6 +175,11 @@ namespace Slip
                 }
             }
             return null;
+        }
+
+        private static bool SolidTile(Tile tile)
+        {
+            return tile.Wall > 0 || (tile.puzzle != null && tile.puzzle.SolidCollision());
         }
     }
 
