@@ -8,7 +8,7 @@ namespace Slip
 {
     public abstract class GameScreen : Screen
     {
-        public const int tileSize = 40;
+        public const int tileSize = Tile.tileSize;
         
         public Player player;
         public Room currentRoom;
@@ -47,7 +47,7 @@ namespace Slip
             {
                 for (int y = startTileY; y <= endTileY; y++)
                 {
-                    Texture2D texture = floorTexture[currentRoom.floor[x, y]];
+                    Texture2D texture = floorTexture[currentRoom.tiles[x, y].Floor];
                     if (texture != null)
                     {
                         Vector2 worldPos = tileSize * new Vector2(x, y);
@@ -64,7 +64,7 @@ namespace Slip
             {
                 for (int y = startTileY; y <= endTileY; y++)
                 {
-                    Texture2D texture = wallTexture[currentRoom.wall[x, y]];
+                    Texture2D texture = wallTexture[currentRoom.tiles[x, y].Wall];
                     if (texture != null)
                     {
                         Vector2 worldPos = tileSize * new Vector2(x, y);
@@ -110,9 +110,9 @@ namespace Slip
                 left = 0;
             }
             right = (int)Math.Floor((size.X / 2f + player.position.X) / tileSize);
-            if (right >= currentRoom.floorWidth)
+            if (right >= currentRoom.width)
             {
-                right = currentRoom.floorWidth - 1;
+                right = currentRoom.width - 1;
             }
             top = (int)Math.Floor((-size.Y / 2f + player.position.Y) / tileSize);
             if (top < 0)
@@ -120,9 +120,9 @@ namespace Slip
                 top = 0;
             }
             bottom = (int)Math.Floor((size.Y / 2f + player.position.Y) / tileSize);
-            if (bottom >= currentRoom.floorHeight)
+            if (bottom >= currentRoom.height)
             {
-                bottom = currentRoom.floorHeight - 1;
+                bottom = currentRoom.height - 1;
             }
         }
 
@@ -131,8 +131,8 @@ namespace Slip
             return size / 2f + pos - player.position;
         }
 
-        protected Texture2D[] floorTexture;
-        protected Texture2D[] wallTexture;
+        protected Texture2D[] floorTexture = new Texture2D[8];
+        protected Texture2D[] wallTexture = new Texture2D[8];
 
         public override void LoadContent(ContentManager loader)
         {

@@ -6,7 +6,7 @@ namespace Slip
 {
     public static class Collision
     {
-        public const int tileSize = GameScreen.tileSize;
+        public const int tileSize = Tile.tileSize;
 
         public static Vector2 MovePos(Vector2 position, float width, float height, Vector2 velocity, Room room)
         {
@@ -69,7 +69,7 @@ namespace Slip
                     int yEnd = (int)Math.Ceiling((box.bottomRight.Y + yDistance) / tileSize) - 1;
                     while (y <= yEnd)
                     {
-                        if (room.wall[x, y] > 0)
+                        if (room.tiles[x, y].Wall > 0)
                         {
                             return new CollideLine
                             {
@@ -97,7 +97,7 @@ namespace Slip
                     int yEnd = (int)Math.Ceiling((box.bottomLeft.Y + yDistance) / tileSize) - 1;
                     while (y <= yEnd)
                     {
-                        if (room.wall[x - 1, y] > 0)
+                        if (room.tiles[x - 1, y].Wall > 0)
                         {
                             return new CollideLine
                             {
@@ -130,7 +130,7 @@ namespace Slip
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
                     while (x <= xEnd)
                     {
-                        if (room.wall[x, y] > 0)
+                        if (room.tiles[x, y].Wall > 0)
                         {
                             return new CollideLine
                             {
@@ -158,7 +158,7 @@ namespace Slip
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
                     while (x <= xEnd)
                     {
-                        if (room.wall[x, y - 1] > 0)
+                        if (room.tiles[x, y - 1].Wall > 0)
                         {
                             return new CollideLine
                             {

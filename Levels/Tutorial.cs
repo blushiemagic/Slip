@@ -13,30 +13,18 @@ namespace Slip.Levels
         public override Room SetupLevel()
         {
             startRoom = new Room();
-            for (int x = 0; x < startRoom.floorWidth; x++)
-            {
-                for (int y = 0; y < startRoom.floorHeight; y++)
-                {
-                    startRoom.floor[x, y] = 1;
-                }
-            }
-            for (int x = 20; x < 30; x++)
-            {
-                for (int y = 20; y < 30; y++)
-                {
-                    startRoom.floor[x, y] = 2;
-                }
-            }
-            startRoom.AddWallBorder(0, startRoom.floorWidth - 1, 0, startRoom.floorHeight - 1);
+            startRoom.FillFloor(0, startRoom.width - 1, 0, startRoom.height - 1);
+            startRoom.FillFloor(20, 29, 20, 29);
+            startRoom.AddWallBorder(0, startRoom.width - 1, 0, startRoom.height - 1);
             for (int x = 22; x < 28; x++)
             {
-                startRoom.wall[x, 17] = 1;
-                startRoom.wall[x, 32] = 1;
+                startRoom.tiles[x, 17].Wall = 1;
+                startRoom.tiles[x, 32].Wall = 1;
             }
             for (int y = 22; y < 28; y++)
             {
-                startRoom.wall[17, y] = 1;
-                startRoom.wall[32, y] = 1;
+                startRoom.tiles[17, y].Wall = 1;
+                startRoom.tiles[32, y].Wall = 1;
             }
             startRoom.enemies.Add(new Turret(Room.TileToWorldPos(25, 25)));
             return startRoom;
@@ -45,10 +33,8 @@ namespace Slip.Levels
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
-            floorTexture = new Texture2D[3];
             floorTexture[1] = loader.Load<Texture2D>("Floor1");
             floorTexture[2] = loader.Load<Texture2D>("Floor2");
-            wallTexture = new Texture2D[2];
             wallTexture[1] = loader.Load<Texture2D>("Wall1");
             Turret.texture = loader.Load<Texture2D>("Turret");
         }

@@ -6,20 +6,25 @@ namespace Slip
 {
     public class Room
     {
-        public int floorWidth;
-        public int floorHeight;
-        public byte[,] floor;
-        public byte[,] wall;
+        public int width;
+        public int height;
+        public Tile[,] tiles;
         public List<Enemy> enemies;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
 
         public Room(int width = 50, int height = 50)
         {
-            floorWidth = width;
-            floorHeight = height;
-            floor = new byte[width, height];
-            wall = new byte[width, height];
+            this.width = width;
+            this.height = height;
+            this.tiles = new Tile[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    tiles[x, y] = new Tile();
+                }
+            }
             enemies = new List<Enemy>();
         }
 
@@ -36,17 +41,28 @@ namespace Slip
             return GameScreen.tileSize * new Vector2(x, y);
         }
 
+        public void FillFloor(int left, int right, int top, int bottom, byte type = 1)
+        {
+            for (int x = left; x <= right; x++)
+            {
+                for (int y = left; y <= right; y++)
+                {
+                    tiles[x, y].Floor = type;
+                }
+            }
+        }
+
         public void AddWallBorder(int left, int right, int top, int bottom, byte type = 1)
         {
             for (int x = left; x <= right; x++)
             {
-                wall[x, top] = type;
-                wall[x, bottom] = type;
+                tiles[x, top].Wall = type;
+                tiles[x, bottom].Wall = type;
             }
             for (int y = top; y <= bottom; y++)
             {
-                wall[left, y] = type;
-                wall[right, y] = type;
+                tiles[left, y].Wall = type;
+                tiles[right, y].Wall = type;
             }
         }
     }

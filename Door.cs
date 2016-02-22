@@ -14,10 +14,10 @@ namespace Slip
 
         public void Draw(GameScreen screen, Main main)
         {
-            main.spriteBatch.Draw(texture, Screen.DrawPos(main, position), null, Color.White, texture.Center());
+            main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, Color.White, texture.Center());
         }
 
-        public bool OpenDoor(Player player)
+        public void OpenDoor(Player player)
         {
             if (Vector2.Distance(player.position, this.position) <= 20f)
             {
