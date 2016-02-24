@@ -4,7 +4,7 @@ namespace Slip
 {
     public abstract class Bullet : ListObject
     {
-        public override bool Update(Room room, Player player)
+        public override sealed bool Update(Room room, Player player)
         {
             if (UpdateBullet(room, player))
             {

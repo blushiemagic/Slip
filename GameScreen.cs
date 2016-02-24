@@ -41,7 +41,7 @@ namespace Slip
             player.Update(currentRoom);
             foreach (Enemy enemy in currentRoom.enemies)
             {
-                enemy.Update(currentRoom);
+                enemy.Update(currentRoom, player);
                 if (enemy.Collides(player))
                 {
                     player.TakeDamage(1);
@@ -91,6 +91,7 @@ namespace Slip
                 enemy.Draw(this, main);
             }
             player.Draw(main);
+            currentRoom.bullets.Draw(this, main);
             for (int x = startTileX; x <= endTileX; x++)
             {
                 for (int y = startTileY; y <= endTileY; y++)

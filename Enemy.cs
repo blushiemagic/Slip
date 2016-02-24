@@ -23,7 +23,7 @@ namespace Slip
             this.size = size;
         }
 
-        public abstract void Update(Room room);
+        public abstract void Update(Room room, Player player);
 
         public abstract void Draw(GameScreen screen, Main main);
 
