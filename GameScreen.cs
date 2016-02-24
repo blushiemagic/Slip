@@ -56,6 +56,10 @@ namespace Slip
 
         public void ChangeRoom(Room room, Vector2 position)
         {
+            if (currentRoom != null)
+            {
+                currentRoom.ExitRoom(player);
+            }
             currentRoom = room;
             player.position = position;
             room.EnterRoom(player);

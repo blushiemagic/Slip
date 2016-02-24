@@ -14,6 +14,8 @@ namespace Slip
         public ParticleList particles;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
+        public delegate void ExitEvent(Player player);
+        public event ExitEvent OnExit;
 
         public Room(int width = 50, int height = 50)
         {
@@ -37,6 +39,15 @@ namespace Slip
             if (OnEnter != null)
             {
                 OnEnter(player);
+            }
+        }
+
+        public void ExitRoom(Player player)
+        {
+            particles.ClearParticles();
+            if (OnExit != null)
+            {
+                OnExit(player);
             }
         }
 

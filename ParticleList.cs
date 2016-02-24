@@ -44,6 +44,12 @@ namespace Slip
                 node = node.next;
             }
         }
+
+        public void ClearParticles()
+        {
+            first.next = last;
+            last.previous = first;
+        }
     }
 
     internal class ParticleListNode
