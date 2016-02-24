@@ -22,7 +22,7 @@ namespace Slip.Puzzles
             {
                 Vector2 offset = new Vector2((float)Main.rand.NextDouble() * 40f - 20f,
                     (float)Main.rand.NextDouble() * 40f - 20f);
-                room.particles.AddParticle(new Sparkle(position + offset));
+                room.particles.Add(new Sparkle(position + offset));
             }
         }
 

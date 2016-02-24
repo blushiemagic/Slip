@@ -10,8 +10,9 @@ namespace Slip
         public int height;
         public Tile[,] tiles;
         public List<Enemy> enemies;
+        public ObjectList<Bullet> bullets;
         public List<Point> puzzleCache;
-        public ParticleList particles;
+        public ObjectList<Particle> particles;
         public delegate void EnterEvent(Player player);
         public event EnterEvent OnEnter;
         public delegate void ExitEvent(Player player);
@@ -30,8 +31,9 @@ namespace Slip
                 }
             }
             enemies = new List<Enemy>();
+            bullets = new ObjectList<Bullet>();
             puzzleCache = new List<Point>();
-            particles = new ParticleList();
+            particles = new ObjectList<Particle>();
         }
 
         public void EnterRoom(Player player)
@@ -44,7 +46,8 @@ namespace Slip
 
         public void ExitRoom(Player player)
         {
-            particles.ClearParticles();
+            bullets.Clear();
+            particles.Clear();
             if (OnExit != null)
             {
                 OnExit(player);

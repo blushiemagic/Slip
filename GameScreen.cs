@@ -47,11 +47,12 @@ namespace Slip
                     player.TakeDamage(1);
                 }
             }
+            currentRoom.bullets.Update(currentRoom, player);
             foreach (Point pos in currentRoom.puzzleCache)
             {
                 currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y, player);
             }
-            currentRoom.particles.UpdateParticles(currentRoom);
+            currentRoom.particles.Update(currentRoom, player);
         }
 
         public void ChangeRoom(Room room, Vector2 position)
@@ -102,7 +103,7 @@ namespace Slip
                     }
                 }
             }
-            currentRoom.particles.DrawParticles(this, main);
+            currentRoom.particles.Draw(this, main);
             if (player.life <= 0)
             {
                 float alpha = 0.1f + 0.4f * ((float)reviveTimer / (float)maxReviveTimer);

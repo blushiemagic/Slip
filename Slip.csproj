@@ -38,9 +38,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bullet.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Particle.cs" />
-    <Compile Include="ParticleList.cs" />
+    <Compile Include="ObjectList.cs" />
     <Compile Include="Particles\Sparkle.cs" />
     <Compile Include="Puzzles\Checkpoint.cs" />
     <Compile Include="Puzzles\Door.cs" />

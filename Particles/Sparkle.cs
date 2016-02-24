@@ -24,7 +24,7 @@ namespace Slip.Particles
             this.scale = 0.7f;
         }
 
-        public override bool Update(Room room)
+        public override bool Update(Room room, Player player)
         {
             rotation += rotateSpeed;
             scale *= 0.98f;
