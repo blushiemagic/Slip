@@ -34,7 +34,7 @@ namespace Slip
         {
             get
             {
-                return new Hitbox(position, size, size);
+                return new Hitbox(TopLeft, size, size);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Slip
             int bottom = (int)Math.Ceiling(box.bottomLeft.Y / Tile.tileSize);
             for (int x = left; x < right; x++)
             {
-                for (int y = left; y < right; y++)
+                for (int y = top; y < bottom; y++)
                 {
                     Puzzle puzzle = room.tiles[x, y].puzzle;
                     if (puzzle != null)
