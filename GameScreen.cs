@@ -21,10 +21,10 @@ namespace Slip
             base.Initialize(main);
             player = new Player();
             player.position = new Vector2(tileSize * 1.5f, tileSize * 1.5f);
-            currentRoom = SetupLevel();
+            currentRoom = SetupLevel(player);
         }
 
-        public abstract Room SetupLevel();
+        public abstract Room SetupLevel(Player player);
 
         public override void UpdateScreen(Main main)
         {
@@ -53,6 +53,10 @@ namespace Slip
                 currentRoom.tiles[pos.X, pos.Y].puzzle.Update(currentRoom, pos.X, pos.Y, player);
             }
             currentRoom.particles.Update(currentRoom, player);
+            if (currentRoom.usePortal != null)
+            {
+                ChangeRoom(currentRoom.usePortal.targetRoom, currentRoom.usePortal.targetPos);
+            }
         }
 
         public void ChangeRoom(Room room, Vector2 position)

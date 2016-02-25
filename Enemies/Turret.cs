@@ -37,7 +37,7 @@ namespace Slip.Enemies
                         direction.Normalize();
                     }
                     direction *= 4f;
-                    Bullet bullet = new PositionalBullet(position, direction, 10f, bulletTexture, 120);
+                    PositionalBullet bullet = new PositionalBullet(position, direction, 10f, bulletTexture, 120);
                     room.bullets.Add(bullet);
                     shootTimer = 0;
                 }

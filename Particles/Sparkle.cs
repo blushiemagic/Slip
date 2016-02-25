@@ -15,14 +15,16 @@ namespace Slip.Particles
         private float rotateSpeed;
         private float scale;
 
-        public Sparkle(Vector2 position)
+        public Sparkle(Vector2 position, Color color)
         {
             this.position = position;
-            this.color = Helper.FromHSB((float)Main.rand.NextDouble(), 0.9f, 1f);
+            this.color = color;
             this.rotation = (float)(Main.rand.NextDouble() * 2.0 * Math.PI);
             this.rotateSpeed = (float)(Main.rand.NextDouble() * 2.0 * Math.PI - Math.PI) / 60f;
             this.scale = 0.7f;
         }
+
+        public Sparkle(Vector2 position) : this(position, Helper.FromHSB((float)Main.rand.NextDouble(), 0.9f, 1f)) { }
 
         public override bool Update(Room room, Player player)
         {

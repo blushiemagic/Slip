@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Slip.Puzzles;
 
 namespace Slip
 {
@@ -17,6 +18,7 @@ namespace Slip
         public event EnterEvent OnEnter;
         public delegate void ExitEvent(Player player);
         public event ExitEvent OnExit;
+        public Portal usePortal;
 
         public Room(int width = 50, int height = 50)
         {
@@ -48,6 +50,7 @@ namespace Slip
         {
             bullets.Clear();
             particles.Clear();
+            usePortal = null;
             if (OnExit != null)
             {
                 OnExit(player);

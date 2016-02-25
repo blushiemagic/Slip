@@ -14,7 +14,6 @@ namespace Slip.Bullets
         public Texture2D texture;
         public Color color;
         public int timeLeft;
-        private bool collided;
 
         public Vector2 TopLeft
         {
@@ -45,7 +44,6 @@ namespace Slip.Bullets
             this.texture = texture;
             this.color = Color.White;
             this.timeLeft = timeLeft;
-            this.collided = false;
         }
 
         public PositionalBullet(Vector2 position, float size, Texture2D texture, int timeLeft) :
