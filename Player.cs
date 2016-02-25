@@ -94,7 +94,8 @@ namespace Slip
             {
                 velocity.Normalize();
                 velocity *= 4f;
-                TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room);
+                bool collided;
+                TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room, out collided);
             }
         }
 

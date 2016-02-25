@@ -8,8 +8,9 @@ namespace Slip
     {
         public const int tileSize = Tile.tileSize;
 
-        public static Vector2 MovePos(Vector2 position, float width, float height, Vector2 velocity, Room room)
+        public static Vector2 MovePos(Vector2 position, float width, float height, Vector2 velocity, Room room, out bool collided)
         {
+            collided = false;
             if (velocity == Vector2.Zero)
             {
                 return position;
@@ -35,6 +36,7 @@ namespace Slip
                             velocity.Y = 0f;
                             break;
                     }
+                    collided = true;
                 }
             }
             return position;

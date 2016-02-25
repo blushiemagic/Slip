@@ -57,8 +57,9 @@ namespace Slip.Bullets
             UpdateVelocity(room, player);
             if (wallCollide)
             {
-                TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room);
-                if (Vector2.Distance(position - oldPos, velocity) > 1E-04)
+                bool collided;
+                TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room, out collided);
+                if (collided)
                 {
                     return true;
                 }
