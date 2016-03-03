@@ -10,9 +10,10 @@ namespace Slip
 {
     public class Player
     {
-        public static Texture2D texture;
+        public static Texture2D[] textures = new Texture2D[(int)Direction.Count];
         public const int size = 20;
         public Vector2 position;
+        public Direction direction = Direction.Down;
         public int life = 1;
         public int maxLife = 1;
         public int invincible = 0;
@@ -94,6 +95,7 @@ namespace Slip
             {
                 velocity.Normalize();
                 velocity *= 4f;
+                Helper.GetDirection(velocity, ref direction);
                 bool collided;
                 TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room, out collided);
             }
@@ -125,12 +127,20 @@ namespace Slip
             {
                 color *= 0.75f;
             }
+            Texture2D texture = textures[(int)direction];
             main.spriteBatch.Draw(texture, main.Center(), null, color, texture.Center());
         }
 
         public static void LoadContent(ContentManager loader)
         {
-            texture = loader.Load<Texture2D>("Player");
+            textures[(int)Direction.Down] = loader.Load<Texture2D>("Player/Player_Down");
+            textures[(int)Direction.DownLeft] = loader.Load<Texture2D>("Player/Player_DownLeft");
+            textures[(int)Direction.Left] = loader.Load<Texture2D>("Player/Player_Left");
+            textures[(int)Direction.UpLeft] = loader.Load<Texture2D>("Player/Player_UpLeft");
+            textures[(int)Direction.Up] = loader.Load<Texture2D>("Player/Player_Up");
+            textures[(int)Direction.UpRight] = loader.Load<Texture2D>("Player/Player_UpRight");
+            textures[(int)Direction.Right] = loader.Load<Texture2D>("Player/Player_Right");
+            textures[(int)Direction.DownRight] = loader.Load<Texture2D>("Player/Player_DownRight");
         }
     }
 }
