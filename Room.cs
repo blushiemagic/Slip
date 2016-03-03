@@ -85,7 +85,7 @@ namespace Slip
         {
             for (int x = left; x <= right; x++)
             {
-                for (int y = left; y <= right; y++)
+                for (int y = top; y <= bottom; y++)
                 {
                     tiles[x, y].Floor = type;
                 }
