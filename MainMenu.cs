@@ -18,7 +18,7 @@ namespace Slip
 
         private static void StartDemo(Main main)
         {
-            main.changeScreen = new Tutorial();
+            main.changeScreen = new FirstDungeon();
         }
     }
 }
