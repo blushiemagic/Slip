@@ -34,6 +34,41 @@ namespace Slip
             }
         }
 
+        public static float DirectionToRotation(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    return 0f;
+                case Direction.DownRight:
+                    return (float)Math.PI * 0.25f;
+                case Direction.Down:
+                    return (float)Math.PI * 0.5f;
+                case Direction.DownLeft:
+                    return (float)Math.PI * 0.75f;
+                case Direction.Left:
+                    return (float)Math.PI;
+                case Direction.UpLeft:
+                    return (float)Math.PI * 1.25f;
+                case Direction.Up:
+                    return (float)Math.PI * 1.5f;
+                case Direction.UpRight:
+                    return (float)Math.PI * 1.75f;
+                default:
+                    return 0f;
+            }
+        }
+
+        public static Vector2 AngleToVector2(float angle)
+        {
+            return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+        }
+
+        public static float Vector2ToAngle(Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.Y, vector.X);
+        }
+
         public static Color FromHSB(float h, float s, float b)
         {
             Color color = Color.White;

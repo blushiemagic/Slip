@@ -183,6 +183,29 @@ namespace Slip
         {
             return tile.Wall > 0 || (tile.puzzle != null && tile.puzzle.SolidCollision());
         }
+
+        public static bool SectorCollides(Vector2 sectorCenter, float sectorRadius, float sectorAngle1, float sectorAngle2,
+            Vector2 targetCenter, float targetRadius)
+        {
+            float distance = Vector2.Distance(sectorCenter, targetCenter);
+            if (distance > sectorRadius + targetRadius)
+            {
+                return false;
+            }
+            if (sectorAngle1 > (float)Math.PI)
+            {
+                sectorAngle1 -= 2f * (float)Math.PI;
+            }
+            while (sectorAngle2 < sectorAngle1)
+            {
+                sectorAngle2 += 2f * (float)Math.PI;
+            }
+            Vector2 normal1 = Helper.AngleToVector2(sectorAngle1 + 0.5f * (float)Math.PI);
+            Vector2 normal2 = Helper.AngleToVector2(sectorAngle2 - 0.5f * (float)Math.PI);
+            Vector2 testOffset1 = targetCenter + targetRadius * normal1 - sectorCenter;
+            Vector2 testOffset2 = targetCenter + targetRadius * normal2 - sectorCenter;
+            return Vector2.Dot(normal1, testOffset1) >= 0 && Vector2.Dot(normal2, testOffset2) >= 0;
+        }
     }
 
     enum CollideType

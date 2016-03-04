@@ -48,6 +48,17 @@ namespace Slip
 
         public void ExitRoom(Player player)
         {
+            int k = 0;
+            while (k < enemies.Count)
+            {
+                Enemy enemy = enemies[k];
+                if (enemy.temporary)
+                {
+                    enemies.Remove(enemy);
+                    k--;
+                }
+                k++;
+            }
             bullets.Clear();
             particles.Clear();
             usePortal = null;

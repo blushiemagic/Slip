@@ -41,7 +41,7 @@ namespace Slip
             player.Update(currentRoom);
             foreach (Enemy enemy in currentRoom.enemies)
             {
-                enemy.Update(currentRoom, player);
+                enemy.UpdateEnemy(currentRoom, player);
                 if (enemy.Collides(player))
                 {
                     player.TakeDamage(1);

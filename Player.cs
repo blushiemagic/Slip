@@ -11,9 +11,12 @@ namespace Slip
     public class Player
     {
         public static Texture2D[] textures = new Texture2D[(int)Direction.Count];
+        public static Texture2D slashTexture;
         public const int size = 20;
+        public const int attackDistance = 12;
         public Vector2 position;
         public Direction direction = Direction.Down;
+        private int attackTimer = 0;
         public int life = 1;
         public int maxLife = 1;
         public int invincible = 0;
@@ -47,9 +50,32 @@ namespace Slip
             }
         }
 
+        public bool Attacking
+        {
+            get
+            {
+                return attackTimer > 0;
+            }
+        }
+
         public void Update(Room room)
         {
-            Move(room);
+            if (Attacking)
+            {
+                attackTimer--;
+            }
+            if (!Attacking && Main.IsKeyPressed(Keys.Z))
+            {
+                attackTimer = 15;
+            }
+            if (Attacking)
+            {
+                Attack(room);
+            }
+            else
+            {
+                Move(room);
+            }
             Hitbox box = hitbox;
             int left = (int)Math.Floor(box.topLeft.X / Tile.tileSize);
             int right = (int)Math.Ceiling(box.topRight.X / Tile.tileSize);
@@ -101,6 +127,28 @@ namespace Slip
             }
         }
 
+        public void Attack(Room room)
+        {
+            float attackDir = Helper.DirectionToRotation(direction);
+            float angle1 = attackDir - 0.25f * (float)Math.PI;
+            float angle2 = attackDir + 0.25f * (float)Math.PI;
+            float reach = radius + attackDistance;
+            int i = 0;
+            while (i < room.enemies.Count)
+            {
+                Enemy enemy = room.enemies[i];
+                if (Collision.SectorCollides(position, reach, angle1, angle2, enemy.position, enemy.radius))
+                {
+                    if (enemy.TakeDamage(1))
+                    {
+                        room.enemies.Remove(enemy);
+                        i--;
+                    }
+                }
+                i++;
+            }
+        }
+
         public void TakeDamage(int damage)
         {
             if (invincible <= 0)
@@ -129,6 +177,12 @@ namespace Slip
             }
             Texture2D texture = textures[(int)direction];
             main.spriteBatch.Draw(texture, main.Center(), null, color, texture.Center());
+            if (Attacking)
+            {
+                float rotation = Helper.DirectionToRotation(direction);
+                main.spriteBatch.Draw(slashTexture, main.Center(), null, Color.White, rotation, slashTexture.Center(),
+                    1f, SpriteEffects.None, 1f);
+            }
         }
 
         public static void LoadContent(ContentManager loader)
@@ -141,6 +195,7 @@ namespace Slip
             textures[(int)Direction.UpRight] = loader.Load<Texture2D>("Player/Player_UpRight");
             textures[(int)Direction.Right] = loader.Load<Texture2D>("Player/Player_Right");
             textures[(int)Direction.DownRight] = loader.Load<Texture2D>("Player/Player_DownRight");
+            slashTexture = loader.Load<Texture2D>("Slash");
         }
     }
 }
