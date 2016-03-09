@@ -64,9 +64,9 @@ namespace Slip
             {
                 attackTimer--;
             }
-            if (!Attacking && Main.IsKeyPressed(Keys.Z))
+            if (!Attacking && Main.IsControlPressed(KeyControl.Action))
             {
-                attackTimer = 15;
+                Action(room);
             }
             if (Attacking)
             {
@@ -101,19 +101,19 @@ namespace Slip
         public void Move(Room room)
         {
             Vector2 velocity = Vector2.Zero;
-            if (Main.IsKeyPressed(Keys.Up))
+            if (Main.IsControlHeld(KeyControl.Up))
             {
                 velocity.Y -= 1f;
             }
-            if (Main.IsKeyPressed(Keys.Down))
+            if (Main.IsControlHeld(KeyControl.Down))
             {
                 velocity.Y += 1f;
             }
-            if (Main.IsKeyPressed(Keys.Left))
+            if (Main.IsControlHeld(KeyControl.Left))
             {
                 velocity.X -= 1f;
             }
-            if (Main.IsKeyPressed(Keys.Right))
+            if (Main.IsControlHeld(KeyControl.Right))
             {
                 velocity.X += 1f;
             }
@@ -125,6 +125,34 @@ namespace Slip
                 bool collided;
                 TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room, out collided);
             }
+        }
+
+        public void Action(Room room)
+        {
+            Vector2 checkDirection = Helper.DirectionToVector2(direction);
+            float checkPosOffset = size;
+            if (checkDirection.X != 0f && checkDirection.Y != 0f)
+            {
+                checkPosOffset *= (float)Math.Sqrt(2);
+            }
+            Vector2 checkPos = position + checkPosOffset * checkDirection;
+            checkPos /= Tile.tileSize;
+            if (checkDirection.X > 0f && checkPos.X == (float)Math.Floor(checkPos.X))
+            {
+                checkPos.X -= 1f;
+            }
+            if (checkDirection.Y > 0f && checkPos.Y == (float)Math.Floor(checkPos.Y))
+            {
+                checkPos.Y -= 1f;
+            }
+            int x = (int)checkPos.X;
+            int y = (int)checkPos.Y;
+            Puzzle puzzle = room.tiles[x, y].puzzle;
+            if (puzzle != null && puzzle.PlayerInteraction(room, x, y, this))
+            {
+                return;
+            }
+            attackTimer = 15;
         }
 
         public void Attack(Room room)

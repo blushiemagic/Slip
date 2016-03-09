@@ -45,19 +45,19 @@ namespace Slip
                 Reset();
             }
             Vector2 velocity = Vector2.Zero;
-            if (Main.IsKeyPressed(Keys.Up))
+            if (Main.IsControlHeld(KeyControl.Up))
             {
                 velocity.Y -= 1f;
             }
-            if (Main.IsKeyPressed(Keys.Down))
+            if (Main.IsControlHeld(KeyControl.Down))
             {
                 velocity.Y += 1f;
             }
-            if (Main.IsKeyPressed(Keys.Left))
+            if (Main.IsControlHeld(KeyControl.Left))
             {
                 velocity.X -= 1f;
             }
-            if (Main.IsKeyPressed(Keys.Right))
+            if (Main.IsControlHeld(KeyControl.Right))
             {
                 velocity.X += 1f;
             }

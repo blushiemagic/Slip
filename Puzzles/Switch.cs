@@ -12,7 +12,7 @@ namespace Slip.Puzzles
         public Vector2 position;
         public bool on = false;  // This is False by default, as the switch is not turned on
 
-        public override void Draw(GameScreen screen, Main main)
+        public override void Draw(GameScreen screen, int x, int y, Main main)
         {
             main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, Color.White, texture.Center()); 
         }

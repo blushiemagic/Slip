@@ -59,6 +59,29 @@ namespace Slip
             }
         }
 
+        public static Vector2 DirectionToVector2(Direction direction)
+        {
+            Vector2 vector = Vector2.Zero;
+            if (direction == Direction.UpLeft || direction == Direction.Up || direction == Direction.UpRight)
+            {
+                vector.Y = -1f;
+            }
+            if (direction == Direction.DownLeft || direction == Direction.Down || direction == Direction.DownRight)
+            {
+                vector.Y = 1f;
+            }
+            if (direction == Direction.UpLeft || direction == Direction.Left || direction == Direction.DownLeft)
+            {
+                vector.X = -1f;
+            }
+            if (direction == Direction.UpRight || direction == Direction.Right || direction == Direction.DownRight)
+            {
+                vector.X = 1f;
+            }
+            vector.Normalize();
+            return vector;
+        }
+
         public static Vector2 AngleToVector2(float angle)
         {
             return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));

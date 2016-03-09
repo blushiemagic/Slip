@@ -1,28 +1,54 @@
 using System;
-using System.Collections.Generic;   // This is for lists. If you end up not having any lists, you won't need this
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Slip.Puzzles
 {
     public class Door : Puzzle
     {
-        public static Texture2D texture;
-        public const int size = 20; // Size of the door. Change this if necessary, especially if we want doors of different sizes
-        public Vector2 position;
-        public bool open = false;  // This is False by default, as the door is closed by default
+        public static Texture2D closedTexture;
+        public static Texture2D openVerticalTexture;
+        public static Texture2D openHorizontalTexture;
+        protected bool open = false;
+        private bool vertical;
 
-        public override void Draw(GameScreen screen, Main main)
+        public Door(bool vertical, bool open = false)
         {
-            main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, Color.White, texture.Center());
+            this.vertical = vertical;
+            this.open = open;
         }
 
-        public void OpenDoor(Player player)
+        public override void Draw(GameScreen screen, int x, int y, Main main)
         {
-            if (Vector2.Distance(player.position, this.position) <= 20f)
+            Texture2D texture = closedTexture;
+            if (open)
             {
-                this.open = true;
+                texture = vertical ? openVerticalTexture : openHorizontalTexture;
             }
+            main.spriteBatch.Draw(texture, screen.DrawPos(main, Room.TileToWorldPos(x, y)), null, Color.White);
+        }
+
+        public override bool SolidCollision()
+        {
+            return !open;
+        }
+
+        public override bool PlayerInteraction(Room room, int x, int y, Player player)
+        {
+            if (!open)
+            {
+                open = true;
+                return true;
+            }
+            return false;
+        }
+
+        public static void LoadContent(ContentManager loader)
+        {
+            closedTexture = loader.Load<Texture2D>("DoorClosed");
+            openVerticalTexture = loader.Load<Texture2D>("DoorOpenVertical");
+            openHorizontalTexture = loader.Load<Texture2D>("DoorOpenHorizontal");
         }
     }
 }

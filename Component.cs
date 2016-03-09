@@ -68,7 +68,7 @@ namespace Slip
 
         public virtual void Update(Main main)
         {
-            if (main.leftMouseClick && ContainsPoint(main.mousePos) && OnClick != null)
+            if (Main.leftMouseClick && ContainsPoint(Main.mousePos) && OnClick != null)
             {
                 OnClick(main);
             }

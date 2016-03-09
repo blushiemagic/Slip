@@ -12,7 +12,7 @@ namespace Slip
         {
         }
 
-        public virtual void Draw(GameScreen screen, Main main)
+        public virtual void Draw(GameScreen screen, int x, int y, Main main)
         {
         }
 
@@ -23,6 +23,11 @@ namespace Slip
 
         public virtual void OnPlayerCollide(Room room, int x, int y, Player player)
         {
+        }
+
+        public virtual bool PlayerInteraction(Room room, int x, int y, Player player)
+        {
+            return false;
         }
     }
 }

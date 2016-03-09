@@ -88,7 +88,7 @@ namespace Slip
             }
             foreach (Point pos in currentRoom.puzzleCache)
             {
-                currentRoom.tiles[pos.X, pos.Y].puzzle.Draw(this, main);
+                currentRoom.tiles[pos.X, pos.Y].puzzle.Draw(this, pos.X, pos.Y, main);
             }
             foreach (Enemy enemy in currentRoom.enemies)
             {

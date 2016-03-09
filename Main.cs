@@ -16,19 +16,23 @@ namespace Slip
 
         private Screen screen;
         public Screen changeScreen = null;
-        public Point mousePos;
-        public Point mouseMove;
-        public bool leftMouseClick;
-        public bool rightMouseClick;
-        public bool middleMouseClick;
-        public bool leftMousePress;
-        public bool rightMousePress;
-        public bool middleMousePress;
-        public bool leftMouseRelease;
-        public bool rightMouseRelease;
-        public bool middleMouseRelease;
-        public int mouseWheel;
-        public int mouseScrollSpeed;
+        private static Keys[] controlsToKeys = new Keys[(int)KeyControl.Count];
+        private static bool[] controlPress = new bool[(int)KeyControl.Count];
+        private static bool[] controlHold = new bool[(int)KeyControl.Count];
+        private static bool[] controlRelease = new bool[(int)KeyControl.Count];
+        public static Point mousePos;
+        public static Point mouseMove;
+        public static bool leftMouseClick;
+        public static bool rightMouseClick;
+        public static bool middleMouseClick;
+        public static bool leftMousePress;
+        public static bool rightMousePress;
+        public static bool middleMousePress;
+        public static bool leftMouseRelease;
+        public static bool rightMouseRelease;
+        public static bool middleMouseRelease;
+        public static int mouseWheel;
+        public static int mouseScrollSpeed;
 
         public Main()
         {
@@ -38,6 +42,7 @@ namespace Slip
             graphics.PreferredBackBufferHeight = 600;
             this.IsMouseVisible = true;
             Content.RootDirectory = "Content";
+            SetupDefaultControls();
         }
 
         protected override void Initialize()
@@ -58,11 +63,12 @@ namespace Slip
         
         protected override void Update(GameTime gameTime)
         {
-            if (IsKeyPressed(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 base.Exit();
                 return;
             }
+            UpdateKeyState();
             UpdateMouseState();
             screen.Update(this);
             if (changeScreen != null)
@@ -73,12 +79,48 @@ namespace Slip
             base.Update(gameTime);
         }
 
-        public static bool IsKeyPressed(Keys key)
+        private static void SetupDefaultControls()
         {
-            return Keyboard.GetState().IsKeyDown(key);
+            MapKey(KeyControl.Up, Keys.Up);
+            MapKey(KeyControl.Left, Keys.Left);
+            MapKey(KeyControl.Down, Keys.Down);
+            MapKey(KeyControl.Right, Keys.Right);
+            MapKey(KeyControl.Action, Keys.Z);
         }
 
-        private void UpdateMouseState()
+        public static void MapKey(KeyControl control, Keys key)
+        {
+            controlsToKeys[(int)control] = key;
+        }
+
+        private static void UpdateKeyState()
+        {
+            for (int k = 0; k < (int)KeyControl.Count; k++)
+            {
+                bool keyDown = Keyboard.GetState().IsKeyDown(controlsToKeys[k]);
+                bool keyUp = Keyboard.GetState().IsKeyUp(controlsToKeys[k]);
+                controlPress[k] = !controlHold[k] && keyDown;
+                controlRelease[k] = controlHold[k] && keyUp;
+                controlHold[k] = keyDown;
+            }
+        }
+
+        public static bool IsControlPressed(KeyControl control)
+        {
+            return controlPress[(int)control];
+        }
+
+        public static bool IsControlHeld(KeyControl control)
+        {
+            return controlHold[(int)control];
+        }
+
+        public static bool IsControlReleased(KeyControl control)
+        {
+            return controlRelease[(int)control];
+        }
+
+        private static void UpdateMouseState()
         {
             mouseMove = Mouse.GetState().Position - mousePos;
             mousePos = Mouse.GetState().Position;

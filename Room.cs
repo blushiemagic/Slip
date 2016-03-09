@@ -73,6 +73,11 @@ namespace Slip
             return GameScreen.tileSize * new Vector2(x, y);
         }
 
+        public static Vector2 TileToWorldPos(Vector2 v)
+        {
+            return GameScreen.tileSize * v;
+        }
+
         public void AddPuzzle(int x, int y, Puzzle puzzle)
         {
             if (tiles[x, y].puzzle == null)
@@ -81,6 +86,11 @@ namespace Slip
             }
             tiles[x, y].puzzle = puzzle;
             puzzle.Initialize(this, x, y);
+        }
+
+        public void AddPuzzle(Vector2 v, Puzzle puzzle)
+        {
+            AddPuzzle((int)v.X / Tile.tileSize, (int)v.Y / Tile.tileSize, puzzle);
         }
 
         public void RemovePuzzle(int x, int y)
@@ -92,6 +102,26 @@ namespace Slip
             }
         }
 
+        public void SetFloor(int x, int y, byte type)
+        {
+            tiles[x, y].Floor = type;
+        }
+
+        public void SetFloor(Vector2 v, byte type)
+        {
+            tiles[(int)v.X / Tile.tileSize, (int)v.Y / Tile.tileSize].Floor = type;
+        }
+
+        public void SetWall(int x, int y, byte type)
+        {
+            tiles[x, y].Wall = type;
+        }
+
+        public void SetWall(Vector2 v, byte type)
+        {
+            tiles[(int)v.X / Tile.tileSize, (int)v.Y / Tile.tileSize].Wall = type;
+        }
+
         public void FillFloor(int left, int right, int top, int bottom, byte type = 1)
         {
             for (int x = left; x <= right; x++)
@@ -99,6 +129,17 @@ namespace Slip
                 for (int y = top; y <= bottom; y++)
                 {
                     tiles[x, y].Floor = type;
+                }
+            }
+        }
+
+        public void FillWall(int left, int right, int top, int bottom, byte type = 1)
+        {
+            for (int x = left; x <= right; x++)
+            {
+                for (int y = top; y <= bottom; y++)
+                {
+                    tiles[x, y].Wall = type;
                 }
             }
         }
