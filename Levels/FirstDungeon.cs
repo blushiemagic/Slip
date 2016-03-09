@@ -11,18 +11,14 @@ namespace Slip.Levels
     public class FirstDungeon : GameScreen
     {
         Room room1 = new Room(18, 14);
-        //Room room2 = new Room(5, 5);
+        Room room2 = new Room(5, 5);
 
         public override Room SetupLevel(Player player)
         {
+            // Room 1 contents
             room1.FillFloor(0, room1.width - 1, 0, room1.height - 1);
             room1.AddWallBorder(0, room1.width - 1, 0, room1.height - 1);
             
-            
-            
-            //room1.AddPuzzle(room1.width - 2, room1.height - 2, new Checkpoint());
-			// startRoom.AddPuzzle(1, startRoom.height - 2, new Portal(room2, Tile.tileSize * new Vector2(1.5f, 1.5f)));
-
             for (int x = 1; x < 13; x++)
             {
                 room1.tiles[x, 5].Wall = 1;
@@ -34,13 +30,17 @@ namespace Slip.Levels
                 room1.tiles[x, 7].Wall = 1;
             }
             room1.enemies.Add(new Turret(Room.TileToWorldPos(12, 7)));
+            
+            room1.AddPuzzle(1, room1.height - 2, new Portal(room2, Tile.tileSize * new Vector2(1.5f, 1.5f)));
             room1.AddPuzzle(1, 1, new Checkpoint());
 
+            // Room 2 contents
+            room2.FillFloor(0, room2.width - 1, 0, room2.height - 1);
+            room2.AddWallBorder(0, room2.width - 1, 0, room2.height - 1);
+            
+            room2.AddPuzzle(room2.width - 2, room2.height - 2, new Portal(room1, Tile.tileSize * new Vector2(1.5f, 1.5f)));
 
-                // room2.AddPuzzle(room2.width - 2, room2.height - 2,
-                //new Portal(startRoom, Tile.tileSize * new Vector2(1.5f, 1.5f)));
-
-                return room1;
+            return room1;
         }
 
         public override void LoadContent(ContentManager loader)
