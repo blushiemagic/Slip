@@ -119,8 +119,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\FirstDungeon\Floor1.png">
-    <Content Include="Content\DungeonFloor.png" />
-    <Content Include="Content\Floor2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\FirstDungeon\Floor2.png">
