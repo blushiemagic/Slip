@@ -189,5 +189,17 @@ namespace Slip
             Player.LoadContent(loader);
             Checkpoint.LoadContent(loader);
         }
+
+        protected void LoadTileset(string folder, int floors, int walls, ContentManager loader)
+        {
+            for (int k = 1; k <= floors; k++)
+            {
+                floorTexture[k] = loader.Load<Texture2D>(folder + "/Floor" + k);
+            }
+            for (int k = 1; k <= walls; k++)
+            {
+                wallTexture[k] = loader.Load<Texture2D>(folder + "/Wall" + k);
+            }
+        }
     }
 }

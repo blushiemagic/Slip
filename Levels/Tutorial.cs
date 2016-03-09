@@ -45,9 +45,7 @@ namespace Slip.Levels
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
-            floorTexture[1] = loader.Load<Texture2D>("Floor1");
-            floorTexture[2] = loader.Load<Texture2D>("Floor2");
-            wallTexture[1] = loader.Load<Texture2D>("Wall1");
+            LoadTileset("Tutorial", 2, 1, loader);
             Turret.LoadContent(loader);
         }
     }
