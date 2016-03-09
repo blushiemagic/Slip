@@ -19,6 +19,7 @@ namespace Slip
         public delegate void ExitEvent(Player player);
         public event ExitEvent OnExit;
         public Portal usePortal;
+        public CameraEvent cameraEvent;
 
         public Room(int width = 50, int height = 50)
         {

@@ -13,6 +13,7 @@ namespace Slip
         
         public Player player;
         public Room currentRoom;
+        private Vector2 camera;
         private int reviveTimer;
         private const int maxReviveTimer = 120;
 
@@ -22,6 +23,7 @@ namespace Slip
             player = new Player();
             player.position = new Vector2(tileSize * 1.5f, tileSize * 1.5f);
             currentRoom = SetupLevel(player);
+            camera = player.position;
         }
 
         public abstract Room SetupLevel(Player player);
@@ -35,6 +37,14 @@ namespace Slip
                 {
                     player.Revive(this);
                     reviveTimer = 0;
+                }
+                return;
+            }
+            if (currentRoom.cameraEvent != null)
+            {
+                if (currentRoom.cameraEvent.Update(currentRoom, player, ref camera))
+                {
+                    currentRoom.cameraEvent = null;
                 }
                 return;
             }
@@ -57,6 +67,7 @@ namespace Slip
             {
                 ChangeRoom(currentRoom.usePortal.targetRoom, currentRoom.usePortal.targetPos);
             }
+            camera = player.position;
         }
 
         public void ChangeRoom(Room room, Vector2 position)
@@ -94,7 +105,7 @@ namespace Slip
             {
                 enemy.Draw(this, main);
             }
-            player.Draw(main);
+            player.Draw(this, main);
             currentRoom.bullets.Draw(this, main);
             for (int x = startTileX; x <= endTileX; x++)
             {
@@ -132,19 +143,19 @@ namespace Slip
 
         public bool BoxOnScreen(Hitbox box)
         {
-            if (box.topLeft.X > size.X / 2f + player.position.X)
+            if (box.topLeft.X > size.X / 2f + camera.X)
             {
                 return false;
             }
-            if (box.topRight.X < -size.X / 2f + player.position.X)
+            if (box.topRight.X < -size.X / 2f + camera.X)
             {
                 return false;
             }
-            if (box.topLeft.Y > size.Y / 2f + player.position.Y)
+            if (box.topLeft.Y > size.Y / 2f + camera.Y)
             {
                 return false;
             }
-            if (box.bottomLeft.Y * tileSize < -size.Y / 2f + player.position.Y)
+            if (box.bottomLeft.Y * tileSize < -size.Y / 2f + camera.Y)
             {
                 return false;
             }
@@ -153,22 +164,22 @@ namespace Slip
 
         public void ScreenBoundTiles(out int left, out int right, out int top, out int bottom)
         {
-            left = (int)Math.Floor((-size.X / 2f + player.position.X) / tileSize);
+            left = (int)Math.Floor((-size.X / 2f + camera.X) / tileSize);
             if (left < 0)
             {
                 left = 0;
             }
-            right = (int)Math.Floor((size.X / 2f + player.position.X) / tileSize);
+            right = (int)Math.Floor((size.X / 2f + camera.X) / tileSize);
             if (right >= currentRoom.width)
             {
                 right = currentRoom.width - 1;
             }
-            top = (int)Math.Floor((-size.Y / 2f + player.position.Y) / tileSize);
+            top = (int)Math.Floor((-size.Y / 2f + camera.Y) / tileSize);
             if (top < 0)
             {
                 top = 0;
             }
-            bottom = (int)Math.Floor((size.Y / 2f + player.position.Y) / tileSize);
+            bottom = (int)Math.Floor((size.Y / 2f + camera.Y) / tileSize);
             if (bottom >= currentRoom.height)
             {
                 bottom = currentRoom.height - 1;
@@ -177,7 +188,7 @@ namespace Slip
 
         public Vector2 DrawPos(Main main, Vector2 pos)
         {
-            return size / 2f + pos - player.position;
+            return size / 2f + pos - camera;
         }
 
         protected Texture2D[] floorTexture = new Texture2D[Tile.numFloors];

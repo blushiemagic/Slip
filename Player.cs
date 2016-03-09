@@ -196,7 +196,7 @@ namespace Slip
             screen.ChangeRoom(lastCheckpoint.room, lastCheckpoint.position);
         }
 
-        public void Draw(Main main)
+        public void Draw(GameScreen screen, Main main)
         {
             Color color = Color.White;
             if (invincible > 0)
@@ -204,12 +204,12 @@ namespace Slip
                 color *= 0.75f;
             }
             Texture2D texture = textures[(int)direction];
-            main.spriteBatch.Draw(texture, main.Center(), null, color, texture.Center());
+            main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, color, texture.Center());
             if (Attacking)
             {
                 float rotation = Helper.DirectionToRotation(direction);
-                main.spriteBatch.Draw(slashTexture, main.Center(), null, Color.White, rotation, slashTexture.Center(),
-                    1f, SpriteEffects.None, 1f);
+                main.spriteBatch.Draw(slashTexture, screen.DrawPos(main, position), null, Color.White, rotation,
+                    slashTexture.Center(), 1f, SpriteEffects.None, 1f);
             }
         }
 

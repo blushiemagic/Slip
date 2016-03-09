@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;   // This is for lists. If you end up not having any lists, you won't need this
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Slip.Puzzles
@@ -8,21 +8,40 @@ namespace Slip.Puzzles
     public class Switch : Puzzle
     {
         public static Texture2D texture;
+        public static Texture2D texturePressed;
         public const int size = 20;
-        public Vector2 position;
-        public bool on = false;  // This is False by default, as the switch is not turned on
+        public bool pressed = false;
+        private Vector2 cameraTarget;
+        private CameraEvent.ActionEvent action;
+        private int actionLength;
+
+        public Switch(Vector2 target, CameraEvent.ActionEvent action, int length = 0)
+        {
+            this.cameraTarget = target;
+            this.action = action;
+            this.actionLength = length;
+        }
 
         public override void Draw(GameScreen screen, int x, int y, Main main)
         {
-            main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, Color.White, texture.Center()); 
+            Texture2D text = pressed ? texturePressed : texture;
+            main.spriteBatch.Draw(text, screen.DrawPos(main, Room.TileToWorldPos(x, y) + new Vector2(10f)), null, Color.White); 
         }
 
-        public void ActiveSwitch(Player player)
+        public override void OnPlayerCollide(Room room, int x, int y, Player player)
         {
-            if (Vector2.Distance(player.position, this.position) <= 20f)
+            Vector2 pos = Tile.tileSize * new Vector2(x + 0.5f, y + 0.5f);
+            if (!pressed && Vector2.Distance(pos, player.position) < (size + Player.size) / 2f)
             {
-                this.on = true;
+                pressed = true;
+                room.cameraEvent = new CameraEvent(cameraTarget, action, actionLength);
             }
+        }
+
+        public static void LoadContent(ContentManager loader)
+        {
+            texture = loader.Load<Texture2D>("Switch");
+            texturePressed = loader.Load<Texture2D>("SwitchPressed");
         }
     }
 }

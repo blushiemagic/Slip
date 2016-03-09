@@ -7,9 +7,9 @@ namespace Slip.Puzzles
 {
     public class Door : Puzzle
     {
-        public static Texture2D closedTexture;
-        public static Texture2D openVerticalTexture;
-        public static Texture2D openHorizontalTexture;
+        public Texture2D closedTexture;
+        public Texture2D openVerticalTexture;
+        public Texture2D openHorizontalTexture;
         protected bool open = false;
         private bool vertical;
 
@@ -29,26 +29,14 @@ namespace Slip.Puzzles
             main.spriteBatch.Draw(texture, screen.DrawPos(main, Room.TileToWorldPos(x, y)), null, Color.White);
         }
 
+        public void Open()
+        {
+            open = true;
+        }
+
         public override bool SolidCollision()
         {
             return !open;
-        }
-
-        public override bool PlayerInteraction(Room room, int x, int y, Player player)
-        {
-            if (!open)
-            {
-                open = true;
-                return true;
-            }
-            return false;
-        }
-
-        public static void LoadContent(ContentManager loader)
-        {
-            closedTexture = loader.Load<Texture2D>("DoorClosed");
-            openVerticalTexture = loader.Load<Texture2D>("DoorOpenVertical");
-            openHorizontalTexture = loader.Load<Texture2D>("DoorOpenHorizontal");
         }
     }
 }
