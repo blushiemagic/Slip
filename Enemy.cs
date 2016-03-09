@@ -7,6 +7,7 @@ namespace Slip
     public abstract class Enemy
     {
         public Vector2 position;
+        public Vector2? defaultPosition = null;
         public float size;
         public int life = 1;
         public bool invincible = false;

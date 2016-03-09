@@ -41,6 +41,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\Spider.cs" />
     <Compile Include="KeyControl.cs" />
     <Compile Include="Levels\FirstDungeon.cs" />
     <Compile Include="Direction.cs" />
@@ -112,6 +113,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\DoorClosed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Spider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Wall5.png">

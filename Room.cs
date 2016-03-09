@@ -57,6 +57,10 @@ namespace Slip
                     enemies.Remove(enemy);
                     k--;
                 }
+                else if (enemy.defaultPosition.HasValue)
+                {
+                    enemy.position = enemy.defaultPosition.Value;
+                }
                 k++;
             }
             bullets.Clear();
@@ -76,6 +80,12 @@ namespace Slip
         public static Vector2 TileToWorldPos(Vector2 v)
         {
             return GameScreen.tileSize * v;
+        }
+
+        public void AddEnemyWithDefaultPos(Enemy enemy)
+        {
+            enemies.Add(enemy);
+            enemy.defaultPosition = enemy.position;
         }
 
         public void AddPuzzle(int x, int y, Puzzle puzzle)
@@ -120,6 +130,12 @@ namespace Slip
         public void SetWall(Vector2 v, byte type)
         {
             tiles[(int)v.X / Tile.tileSize, (int)v.Y / Tile.tileSize].Wall = type;
+        }
+
+        public void SetupFloorsAndWalls(byte floor = 1, byte wall = 1)
+        {
+            FillFloor(0, width - 1, 0, height - 1, floor);
+            AddWallBorder(0, width - 1, 0, height - 1, wall);
         }
 
         public void FillFloor(int left, int right, int top, int bottom, byte type = 1)

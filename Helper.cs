@@ -10,6 +10,18 @@ namespace Slip
             return new Vector2(vector1.X * vector2.X, vector1.Y * vector2.Y);
         }
 
+        public static void Clamp(ref int value, int min, int max)
+        {
+            if (value < min)
+            {
+                value = min;
+            }
+            if (value > max)
+            {
+                value = max;
+            }
+        }
+
         public static void GetDirection(Vector2 velocity, ref Direction direction)
         {
             if (velocity == Vector2.Zero)

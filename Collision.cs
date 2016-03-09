@@ -62,14 +62,16 @@ namespace Slip
             if (velocity.X > 0f)
             {
                 int x = (int)Math.Ceiling(box.topRight.X / tileSize);
+                x = Math.Max(x, 0);
                 int end = (int)Math.Floor((box.topRight.X + velocity.X) / tileSize);
-                while (x <= end)
+                while (x <= end && x < room.width)
                 {
                     float xDistance = tileSize * x - box.topRight.X;
                     float yDistance = xDistance / velocity.X * velocity.Y;
                     int y = (int)Math.Floor((box.topRight.Y + yDistance) / tileSize);
+                    y = Math.Max(y, 0);
                     int yEnd = (int)Math.Ceiling((box.bottomRight.Y + yDistance) / tileSize) - 1;
-                    while (y <= yEnd)
+                    while (y <= yEnd && y < room.height)
                     {
                         if (SolidTile(room.tiles[x, y]))
                         {
@@ -90,14 +92,16 @@ namespace Slip
             else if (velocity.X < 0f)
             {
                 int x = (int)Math.Floor(box.topLeft.X / tileSize);
+                x = Math.Min(x, room.width);
                 int end = (int)Math.Ceiling((box.topLeft.X + velocity.X) / tileSize);
-                while (x >= end)
+                while (x >= end && x > 0)
                 {
                     float xDistance = tileSize * x - box.topLeft.X;
                     float yDistance = xDistance / velocity.X * velocity.Y;
                     int y = (int)Math.Floor((box.topLeft.Y + yDistance) / tileSize);
+                    y = Math.Max(y, 0);
                     int yEnd = (int)Math.Ceiling((box.bottomLeft.Y + yDistance) / tileSize) - 1;
-                    while (y <= yEnd)
+                    while (y <= yEnd && y < room.height)
                     {
                         if (SolidTile(room.tiles[x - 1, y]))
                         {
@@ -123,14 +127,16 @@ namespace Slip
             if (velocity.Y > 0f)
             {
                 int y = (int)Math.Ceiling(box.bottomLeft.Y / tileSize);
+                y = Math.Max(y, 0);
                 int end = (int)Math.Floor((box.bottomLeft.Y + velocity.Y) / tileSize);
-                while (y <= end)
+                while (y <= end && y < room.height)
                 {
                     float yDistance = tileSize * y - box.bottomLeft.Y;
                     float xDistance = yDistance / velocity.Y * velocity.X;
                     int x = (int)Math.Floor((box.bottomLeft.X + xDistance) / tileSize);
+                    x = Math.Max(x, 0);
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
-                    while (x <= xEnd)
+                    while (x <= xEnd && x < room.width)
                     {
                         if (SolidTile(room.tiles[x, y]))
                         {
@@ -151,14 +157,16 @@ namespace Slip
             else if (velocity.Y < 0f)
             {
                 int y = (int)Math.Floor(box.topLeft.Y / tileSize);
+                y = Math.Min(y, room.height);
                 int end = (int)Math.Ceiling((box.topLeft.Y + velocity.Y) / tileSize);
-                while (y >= end)
+                while (y >= end && y > 0)
                 {
                     float yDistance = tileSize * y - box.topLeft.Y;
                     float xDistance = yDistance / velocity.Y * velocity.X;
                     int x = (int)Math.Floor((box.bottomLeft.X + xDistance) / tileSize);
+                    x = Math.Max(x, 0);
                     int xEnd = (int)Math.Ceiling((box.bottomRight.X + xDistance) / tileSize) - 1;
-                    while (x <= xEnd)
+                    while (x <= xEnd && x < room.width)
                     {
                         if (SolidTile(room.tiles[x, y - 1]))
                         {
