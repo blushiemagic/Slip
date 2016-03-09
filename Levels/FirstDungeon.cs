@@ -12,17 +12,16 @@ namespace Slip.Levels
     {
         Room room1 = new Room(18, 7);
         Room room2 = new Room(18, 18);
-        Room room3 = new Room(20, 20);
+        Room room3 = new Room(21, 21);
         Room room4 = new Room(5, 5);
 
         public override Room SetupLevel(Player player)
         {
             // Room 1 contents
-            // Note to self: add a door at (4, 3). 
             room1.FillFloor(0, room1.width - 1, 0, room1.height - 1);
             room1.AddWallBorder(0, room1.width - 1, 0, room1.height - 1);
 
-
+            room1.AddPuzzle(4, 3, new Door(false));
             room1.tiles[4, 1].Wall = 1;
             room1.tiles[4, 2].Wall = 1;
             room1.tiles[4, 4].Wall = 1;
@@ -48,7 +47,7 @@ namespace Slip.Levels
                 room2.enemies.Add(new Turret(Room.TileToWorldPos(11, i)));
             }
 
-            room2.AddPuzzle(room2.width - 2, room2.height - 2, new Portal(room3, Tile.tileSize * new Vector2(1.5f, 1.5f)));
+            room2.AddPuzzle(room2.width - 2, room2.height - 2, new Portal(room3, Tile.tileSize * new Vector2(10.5f, 10.5f)));
             room2.AddPuzzle(1, 1, new Checkpoint());
 
             // Room 3 contents
@@ -57,7 +56,7 @@ namespace Slip.Levels
             room3.AddWallBorder(0, room3.width - 1, 0, room3.height - 1);
 
             room3.AddPuzzle(room3.width - 2, room3.height - 2, new Portal(room4, Tile.tileSize * new Vector2(1.5f, 1.5f)));
-            room3.AddPuzzle(1, 1, new Checkpoint());
+            room3.AddPuzzle(10, 10, new Checkpoint());
 
             // Room 4 contents
             room4.FillFloor(0, room4.width - 1, 0, room4.height - 1);
@@ -73,6 +72,7 @@ namespace Slip.Levels
             base.LoadContent(loader);
             LoadTileset("FirstDungeon", 1, 1, loader);
             Turret.LoadContent(loader);
+            Door.LoadContent(loader);
         }
     }
 }
