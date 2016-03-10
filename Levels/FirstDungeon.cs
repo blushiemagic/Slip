@@ -21,7 +21,7 @@ namespace Slip.Levels
             room1.FillFloor(0, room1.width - 1, 0, room1.height - 1);
             room1.AddWallBorder(0, room1.width - 1, 0, room1.height - 1);
 
-            room1.AddPuzzle(4, 3, new Door(false));
+            room1.AddPuzzle(4, 3, new BrownDoor(false));
             room1.tiles[4, 1].Wall = 1;
             room1.tiles[4, 2].Wall = 1;
             room1.tiles[4, 4].Wall = 1;
