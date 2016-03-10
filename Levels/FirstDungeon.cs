@@ -72,7 +72,7 @@ namespace Slip.Levels
             base.LoadContent(loader);
             LoadTileset("FirstDungeon", 1, 1, loader);
             Turret.LoadContent(loader);
-            Door.LoadContent(loader);
+            BrownDoor.LoadContent(loader);
         }
     }
 }
