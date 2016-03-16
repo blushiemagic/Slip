@@ -7,12 +7,12 @@ namespace Slip
     {
         private const float speed = 10f;
         private Vector2 targetPos;
-        public delegate void ActionEvent(Room room, Player player);
+        public delegate void ActionEvent(Room room, Player player, int time);
         public event ActionEvent DoAction;
         private int actionLength;
         private int timer = 0;
 
-        public CameraEvent(Vector2 target, ActionEvent action, int length = 0)
+        public CameraEvent(Vector2 target, ActionEvent action, int length = 1)
         {
             this.targetPos = target;
             this.DoAction = action;
@@ -35,12 +35,12 @@ namespace Slip
                     camera += offset;
                 }
             }
-            else if (timer < 120 + actionLength)
+            else if (timer < 60 + actionLength)
             {
                 timer++;
-                if (timer == 60)
+                if (timer >= 30 && timer < 30 + actionLength)
                 {
-                    DoAction(room, player);
+                    DoAction(room, player, timer - 30);
                 }
             }
             else

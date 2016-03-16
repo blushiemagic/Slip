@@ -1,4 +1,5 @@
 bin/
 obj/
+.vs/
 Slip.v12.suo
 Slip.csproj.user

@@ -35,7 +35,7 @@ namespace Slip.Levels
             startRoom.AddPuzzle(startRoom.width / 2, 2, new Portal(room2, room2Start));
 
             room2.SetupFloorsAndWalls(2);
-            room2.FillWall(5, room2.width - 6, room2.height - 2, room2.height - 2, 6);
+            room2.FillWall(9, room2.width - 10, room2.height - 2, room2.height - 2, 6);
             room2.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(20.5f, room2.height * 0.5f)));
             room2.AddPuzzle(room2.width - 3, room2.height / 2, new Portal(room3, room3Start));
 
@@ -50,15 +50,19 @@ namespace Slip.Levels
             room3.AddPuzzle(2, room3.height / 2, new Portal(startRoom, startRoomStart));
             room3.AddPuzzle(4, room3.height / 2, new BlueDoor(false));
             room3.AddPuzzle(room3.width - 3, room3.height / 2,
-                new Switch(Room.TileToWorldPos(new Vector2(4.5f, room3.height / 2f)), Room3Switch));
+                new Switch(Room3Switch));
 
             return startRoom;
         }
 
         private static void Room3Switch(Room room, Player player)
         {
-            Door door = (Door)room.tiles[4, room.height / 2].puzzle;
-            door.Open();
+            Vector2 cameraTarget = Room.TileToWorldPos(new Vector2(4.5f, room.height / 2f));
+            room.cameraEvent = new CameraEvent(cameraTarget, (Room r, Player p, int time) =>
+            {
+                Door door = (Door)r.tiles[4, r.height / 2].puzzle;
+                door.Open();
+            });
         }
 
         public override void LoadContent(ContentManager loader)

@@ -11,15 +11,12 @@ namespace Slip.Puzzles
         public static Texture2D texturePressed;
         public const int size = 20;
         public bool pressed = false;
-        private Vector2 cameraTarget;
-        private CameraEvent.ActionEvent action;
-        private int actionLength;
+        public delegate void SwitchAction(Room room, Player player);
+        private SwitchAction action;
 
-        public Switch(Vector2 target, CameraEvent.ActionEvent action, int length = 0)
+        public Switch(SwitchAction action)
         {
-            this.cameraTarget = target;
             this.action = action;
-            this.actionLength = length;
         }
 
         public override void Draw(GameScreen screen, int x, int y, Main main)
@@ -34,7 +31,7 @@ namespace Slip.Puzzles
             if (!pressed && Vector2.Distance(pos, player.position) < (size + Player.size) / 2f)
             {
                 pressed = true;
-                room.cameraEvent = new CameraEvent(cameraTarget, action, actionLength);
+                action(room, player);
             }
         }
 
