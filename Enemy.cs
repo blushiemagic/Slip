@@ -13,6 +13,8 @@ namespace Slip
         public bool invincible = false;
         public int hurtCool = 0;
         public bool temporary = false;
+        public delegate void DeathAction(Enemy enemy, Room room, Player player);
+        public event DeathAction OnDeath;
 
         public float radius
         {
@@ -54,14 +56,27 @@ namespace Slip
             return Vector2.Distance(position, player.position) < radius + player.radius;
         }
 
-        public bool TakeDamage(int damage)
+        public bool TakeDamage(int damage, Room room, Player player)
         {
             if (CanBeHit)
             {
                 life -= damage;
-                return life <= 0;
+                if (life <= 0)
+                {
+                    Kill(room, player);
+                    return true;
+                }
             }
             return false;
+        }
+
+        public void Kill(Room room, Player player)
+        {
+            if (OnDeath != null)
+            {
+                OnDeath(this, room, player);
+            }
+            room.enemies.Remove(this);
         }
     }
 }

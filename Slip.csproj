@@ -51,6 +51,7 @@
     <Compile Include="ObjectList.cs" />
     <Compile Include="Particles\Sparkle.cs" />
     <Compile Include="Puzzles\BlueDoor.cs" />
+    <Compile Include="Puzzles\SilverKeyDoor.cs" />
     <Compile Include="Puzzles\BrownDoor.cs" />
     <Compile Include="Puzzles\Checkpoint.cs" />
     <Compile Include="Puzzles\Door.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Puzzle.cs" />
     <Compile Include="Puzzles\Portal.cs" />
+    <Compile Include="Puzzles\InvisibleSwitch.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Puzzles\Switch.cs" />
@@ -86,6 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\SilverDoorOpenHorizontal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SilverDoorClosed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\BlueDoorClosed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -135,6 +143,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Spider.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SilverDoorOpenVertical.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Wall5.png">

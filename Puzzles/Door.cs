@@ -34,6 +34,11 @@ namespace Slip.Puzzles
             open = true;
         }
 
+        public void Close()
+        {
+            open = false;
+        }
+
         public override bool SolidCollision()
         {
             return !open;

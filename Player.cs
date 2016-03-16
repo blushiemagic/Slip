@@ -21,6 +21,7 @@ namespace Slip
         public int maxLife = 1;
         public int invincible = 0;
         public Checkpoint lastCheckpoint;
+        public int silverKeys = 0;
 
         public Vector2 TopLeft
         {
@@ -179,9 +180,8 @@ namespace Slip
                 Enemy enemy = room.enemies[i];
                 if (Collision.SectorCollides(position, reach, angle1, angle2, enemy.position, enemy.radius))
                 {
-                    if (enemy.TakeDamage(1))
+                    if (enemy.TakeDamage(1, room, this))
                     {
-                        room.enemies.Remove(enemy);
                         i--;
                     }
                 }

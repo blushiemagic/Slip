@@ -14,9 +14,9 @@ namespace Slip
         public ObjectList<Bullet> bullets;
         public List<Point> puzzleCache;
         public ObjectList<Particle> particles;
-        public delegate void EnterEvent(Player player);
+        public delegate void EnterEvent(Room room, Player player);
         public event EnterEvent OnEnter;
-        public delegate void ExitEvent(Player player);
+        public delegate void ExitEvent(Room room, Player player);
         public event ExitEvent OnExit;
         public Portal usePortal;
         public CameraEvent cameraEvent;
@@ -43,7 +43,7 @@ namespace Slip
         {
             if (OnEnter != null)
             {
-                OnEnter(player);
+                OnEnter(this, player);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Slip
             usePortal = null;
             if (OnExit != null)
             {
-                OnExit(player);
+                OnExit(this, player);
             }
         }
 
