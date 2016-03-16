@@ -72,11 +72,13 @@ namespace Slip.Levels
             room4.AddPuzzle(10, 24, new Checkpoint());
             room4.AddPuzzle(10, 20, new BlueDoor(true, true));
             room4.AddPuzzle(20, 3, new BlueDoor(false));
+            room4.AddPuzzle(24, 3, new SilverKey());
             room4.AddPuzzle(24, 20, new SilverDoor(true));
             Puzzle puzzle = new InvisibleSwitch(Room4MonsterRoom);
             room4.AddPuzzle(9, 19, puzzle);
             room4.AddPuzzle(10, 18, puzzle);
             room4.AddPuzzle(11, 19, puzzle);
+            room4.AddPuzzle(24, 12, new Portal(room1, room1Start));
             room4.OnExit += Room4Exit;
 
             return start;

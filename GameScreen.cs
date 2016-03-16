@@ -132,7 +132,15 @@ namespace Slip
         private void DrawHUD(Main main)
         {
             string text = "LVL1  HP:" + player.life + "/" + player.maxLife + "  EXP:0/9999";
-            main.spriteBatch.DrawBorderString(Textures.Font, text, new Vector2(10f, 10f), Color.White, Color.Black, 2);
+            Vector2 offset = new Vector2(10f, 10f);
+            Vector2 textSize = Textures.Font.MeasureString(text);
+            main.spriteBatch.DrawBorderString(Textures.Font, text, offset, Color.White, Color.Black, 2);
+            offset.X += textSize.X + 40f;
+            main.spriteBatch.Draw(SilverKey.texture, offset - new Vector2(0f, 5f), null, Color.White,
+                0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+            offset.X += 30f;
+            text = "X" + player.silverKeys;
+            main.spriteBatch.DrawBorderString(Textures.Font, text, offset, Color.White, Color.Black, 2);
             if (player.life <= 0)
             {
                 text = "YOU HAVE DIED!";
@@ -199,6 +207,7 @@ namespace Slip
             base.LoadContent(loader);
             Player.LoadContent(loader);
             Checkpoint.LoadContent(loader);
+            SilverKey.LoadContent(loader);
         }
 
         protected void LoadTileset(string folder, int floors, int walls, ContentManager loader)
