@@ -5,12 +5,20 @@ namespace Slip
 {
     public class CameraEvent
     {
-        private const float speed = 10f;
+        public const float speed = 10f;
         private Vector2 targetPos;
         public delegate void ActionEvent(Room room, Player player, int time);
         public event ActionEvent DoAction;
         private int actionLength;
-        private int timer = 0;
+        public int timer = 0;
+
+        public int endAction
+        {
+            get
+            {
+                return 60 + actionLength;
+            }
+        }
 
         public CameraEvent(Vector2 target, ActionEvent action, int length = 1)
         {
@@ -19,7 +27,7 @@ namespace Slip
             this.actionLength = length;
         }
 
-        public bool Update(Room room, Player player, ref Vector2 camera)
+        public virtual bool Update(Room room, Player player, ref Vector2 camera)
         {
             if (timer == 0 && camera != targetPos)
             {
@@ -35,7 +43,7 @@ namespace Slip
                     camera += offset;
                 }
             }
-            else if (timer < 60 + actionLength)
+            else if (timer < endAction)
             {
                 timer++;
                 if (timer >= 30 && timer < 30 + actionLength)
