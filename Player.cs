@@ -13,7 +13,7 @@ namespace Slip
         public static Texture2D[] textures = new Texture2D[(int)Direction.Count];
         public static Texture2D slashTexture;
         public const int size = 20;
-        public const int attackDistance = 12;
+        public const int attackDistance = 20;
         public Vector2 position;
         public Direction direction = Direction.Down;
         private int attackTimer = 0;
@@ -55,6 +55,14 @@ namespace Slip
             get
             {
                 return attackTimer > 0;
+            }
+        }
+
+        public bool AttackCanDamage
+        {
+            get
+            {
+                return attackTimer > 5;
             }
         }
 
@@ -157,6 +165,10 @@ namespace Slip
 
         public void Attack(Room room)
         {
+            if (!AttackCanDamage)
+            {
+                return;
+            }
             float attackDir = Helper.DirectionToRotation(direction);
             float angle1 = attackDir - 0.25f * (float)Math.PI;
             float angle2 = attackDir + 0.25f * (float)Math.PI;
@@ -207,8 +219,13 @@ namespace Slip
             main.spriteBatch.Draw(texture, screen.DrawPos(main, position), null, color, texture.Center());
             if (Attacking)
             {
+                color = Color.White;
+                if (!AttackCanDamage)
+                {
+                    color *= 0.5f;
+                }
                 float rotation = Helper.DirectionToRotation(direction);
-                main.spriteBatch.Draw(slashTexture, screen.DrawPos(main, position), null, Color.White, rotation,
+                main.spriteBatch.Draw(slashTexture, screen.DrawPos(main, position), null, color, rotation,
                     slashTexture.Center(), 1f, SpriteEffects.None, 1f);
             }
         }

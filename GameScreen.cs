@@ -97,16 +97,6 @@ namespace Slip
                     }
                 }
             }
-            foreach (Point pos in currentRoom.puzzleCache)
-            {
-                currentRoom.tiles[pos.X, pos.Y].puzzle.Draw(this, pos.X, pos.Y, main);
-            }
-            foreach (Enemy enemy in currentRoom.enemies)
-            {
-                enemy.Draw(this, main);
-            }
-            player.Draw(this, main);
-            currentRoom.bullets.Draw(this, main);
             for (int x = startTileX; x <= endTileX; x++)
             {
                 for (int y = startTileY; y <= endTileY; y++)
@@ -119,6 +109,16 @@ namespace Slip
                     }
                 }
             }
+            foreach (Point pos in currentRoom.puzzleCache)
+            {
+                currentRoom.tiles[pos.X, pos.Y].puzzle.Draw(this, pos.X, pos.Y, main);
+            }
+            foreach (Enemy enemy in currentRoom.enemies)
+            {
+                enemy.Draw(this, main);
+            }
+            player.Draw(this, main);
+            currentRoom.bullets.Draw(this, main);
             currentRoom.particles.Draw(this, main);
             if (player.life <= 0)
             {

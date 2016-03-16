@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Bullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
+    <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\Spider.cs" />
