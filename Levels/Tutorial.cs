@@ -246,5 +246,10 @@ namespace Slip.Levels
             FixedTurret.LoadContent(loader);
             TutorialBoss.LoadContent(loader);
         }
+
+        public override Color BackgroundColor()
+        {
+            return Color.SpringGreen;
+        }
     }
 }

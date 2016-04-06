@@ -20,9 +20,15 @@ namespace Slip
             panel.size = new Vector2(300f, 50f);
             panel.OnClick += (m => m.changeScreen = new FirstDungeon());
             AddComponent(panel);
-            panel = new TextPanel("Demo", Color.Black);
+            panel = new TextPanel("Fire", Color.Black);
             panel.alignment = new Vector2(0.5f, 0.5f);
             panel.position = new Vector2(0f, 70f);
+            panel.size = new Vector2(300f, 50f);
+            panel.OnClick += (m => m.changeScreen = new FireDungeon());
+            AddComponent(panel);
+            panel = new TextPanel("Demo", Color.Black);
+            panel.alignment = new Vector2(0.5f, 0.5f);
+            panel.position = new Vector2(0f, 140f);
             panel.size = new Vector2(300f, 50f);
             panel.OnClick += (m => m.changeScreen = new DemoScreen());
             AddComponent(panel);

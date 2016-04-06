@@ -91,6 +91,7 @@ namespace Slip
             MapKey(KeyControl.Down, Keys.Down);
             MapKey(KeyControl.Right, Keys.Right);
             MapKey(KeyControl.Action, Keys.Z);
+            MapKey(KeyControl.Debug, Keys.I);
         }
 
         public static void MapKey(KeyControl control, Keys key)

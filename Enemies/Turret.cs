@@ -14,6 +14,7 @@ namespace Slip.Enemies
         private int shootTimer;
         public int maxShootTimer = 60;
         public float shootSpeed = 4f;
+        public int bulletTime = 120;
 
         public Turret(Vector2 pos) : base(pos, 20f)
         {
@@ -39,7 +40,7 @@ namespace Slip.Enemies
                         direction.Normalize();
                     }
                     direction *= shootSpeed;
-                    PositionalBullet bullet = new PositionalBullet(position, direction, 10f, bulletTexture, 120);
+                    PositionalBullet bullet = new PositionalBullet(position, direction, 10f, bulletTexture, bulletTime);
                     room.bullets.Add(bullet);
                     shootTimer = 0;
                 }

@@ -13,6 +13,7 @@ namespace Slip.Enemies
         private int shootTimer;
         public int maxShootTimer = 60;
         private Vector2 shootVelocity;
+        public int bulletTime = 120;
 
         public FixedTurret(Vector2 pos, Vector2 shoot) : base(pos, 20f)
         {
@@ -31,7 +32,7 @@ namespace Slip.Enemies
             shootTimer++;
             if (shootTimer >= maxShootTimer)
             {
-                PositionalBullet bullet = new PositionalBullet(position, shootVelocity, 10f, bulletTexture, 120);
+                PositionalBullet bullet = new PositionalBullet(position, shootVelocity, 10f, bulletTexture, bulletTime);
                 room.bullets.Add(bullet);
                 shootTimer = 0;
             }

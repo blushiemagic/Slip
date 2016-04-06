@@ -21,6 +21,7 @@ namespace Slip
         public int maxLife = 1;
         public int exp = 0;
         public int invincible = 0;
+        public bool debug = false;
         public Checkpoint lastCheckpoint;
         public int silverKeys = 0;
 
@@ -70,6 +71,10 @@ namespace Slip
 
         public void Update(Room room)
         {
+            if (Main.IsControlPressed(KeyControl.Debug))
+            {
+                debug = !debug;
+            }
             if (Attacking)
             {
                 attackTimer--;
@@ -192,7 +197,7 @@ namespace Slip
 
         public void TakeDamage(int damage)
         {
-            if (invincible <= 0)
+            if (invincible <= 0 && !debug)
             {
                 life -= damage;
                 if (life < 0)
