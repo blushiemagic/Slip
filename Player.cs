@@ -19,6 +19,7 @@ namespace Slip
         private int attackTimer = 0;
         public int life = 1;
         public int maxLife = 1;
+        public int exp = 0;
         public int invincible = 0;
         public Checkpoint lastCheckpoint;
         public int silverKeys = 0;
@@ -205,6 +206,7 @@ namespace Slip
         public void Revive(GameScreen screen)
         {
             life = maxLife;
+            attackTimer = 0;
             screen.ChangeRoom(lastCheckpoint.room, lastCheckpoint.position);
         }
 

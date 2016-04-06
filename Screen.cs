@@ -12,7 +12,7 @@ namespace Slip
             size = main.Size();
         }
 
-        public override void Update(Main main)
+        public override sealed void Update(Main main)
         {
             size = main.Size();
             UpdateScreen(main);
@@ -23,7 +23,7 @@ namespace Slip
         {
         }
 
-        public override void Draw(Main main)
+        public override sealed void Draw(Main main)
         {
             size = main.Size();
             DrawScreen(main);

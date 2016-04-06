@@ -47,6 +47,7 @@
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />
+    <Compile Include="Puzzles\Goal.cs" />
     <Compile Include="Puzzles\Lever.cs" />
     <Compile Include="Puzzles\LifeCapsule.cs" />
     <Compile Include="Puzzles\SilverKey.cs" />
@@ -82,10 +83,12 @@
     <Compile Include="Room.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Puzzles\Switch.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="TextPanel.cs" />
     <Compile Include="Textures.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Enemies\Turret.cs" />
+    <Compile Include="WinScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

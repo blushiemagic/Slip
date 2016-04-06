@@ -33,7 +33,7 @@ namespace Slip.Levels
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
-            start.AddPuzzle(1, 1, new Portal(room6, room6Start));
+            start.AddPuzzle(1, 1, new Portal(room1, room1Start));
 
             room1.SetupFloorsAndWalls();
             room1.SetWall(room1.width / 2, room1.height - 7, 2);
@@ -122,6 +122,7 @@ namespace Slip.Levels
             room7.SetupFloorsAndWalls();
             boss = new TutorialBoss(Tile.tileSize * new Vector2(room7.width * 0.5f, 2.5f),
                 Tile.tileSize * 0.5f * new Vector2(room7.width, room7.height));
+            boss.OnDeath += Win;
             room7.enemies.Add(boss);
 
             return start;
@@ -221,6 +222,13 @@ namespace Slip.Levels
                 Room.TileToWorldPos(new Vector2(room.width * 0.5f, 2.5f)),
                 (Room r, Player p, int time) => { }, 60);
             boss.Reset();
+        }
+
+        private void Win(Enemy enemy, Room room, Player player)
+        {
+            room.bullets.Clear();
+            player.exp++;
+            room.AddPuzzle(room.width / 2, room.height / 2, new Goal("Tutorial Level", Color.SpringGreen));
         }
 
         public override void LoadContent(ContentManager loader)

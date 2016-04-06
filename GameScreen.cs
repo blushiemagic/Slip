@@ -131,7 +131,7 @@ namespace Slip
 
         private void DrawHUD(Main main)
         {
-            string text = "LVL1  HP:" + player.life + "/" + player.maxLife + "  EXP:0/9999";
+            string text = "LVL1  HP:" + player.life + "/" + player.maxLife + "  EXP:" + player.exp + "/9999";
             Vector2 offset = new Vector2(10f, 10f);
             Vector2 textSize = Textures.Font.MeasureString(text);
             main.spriteBatch.DrawBorderString(Textures.Font, text, offset, Color.White, Color.Black, 2);
