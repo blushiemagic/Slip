@@ -83,6 +83,7 @@ namespace Slip
 
         public override void DrawScreen(Main main)
         {
+            Lava.IncrementTimer();
             int startTileX, endTileX, startTileY, endTileY;
             ScreenBoundTiles(out startTileX, out endTileX, out startTileY, out endTileY);
             for (int x = startTileX; x <= endTileX; x++)

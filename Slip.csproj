@@ -45,6 +45,7 @@
     <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\FireCaster.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />
     <Compile Include="Levels\FireDungeon.cs" />
@@ -100,6 +101,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Lava.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -188,6 +192,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\LifeCapsule.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FireCaster.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\TutorialBoss.png">
