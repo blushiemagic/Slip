@@ -45,6 +45,7 @@
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Puzzles\Lever.cs" />
+    <Compile Include="Puzzles\LifeCapsule.cs" />
     <Compile Include="Puzzles\SilverKey.cs" />
     <Compile Include="Enemies\Spider.cs" />
     <Compile Include="KeyControl.cs" />
@@ -164,6 +165,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\SilverDoorOpenVertical.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\LifeCapsule.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Wall5.png">

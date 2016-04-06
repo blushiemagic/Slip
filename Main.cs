@@ -63,10 +63,14 @@ namespace Slip
         
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (IsControlPressed(KeyControl.Escape))
             {
-                base.Exit();
-                return;
+                if (screen is MainMenu)
+                {
+                    base.Exit();
+                    return;
+                }
+                ChangeScreen(new MainMenu());
             }
             UpdateKeyState();
             UpdateMouseState();
@@ -81,6 +85,7 @@ namespace Slip
 
         private static void SetupDefaultControls()
         {
+            MapKey(KeyControl.Escape, Keys.Escape);
             MapKey(KeyControl.Up, Keys.Up);
             MapKey(KeyControl.Left, Keys.Left);
             MapKey(KeyControl.Down, Keys.Down);

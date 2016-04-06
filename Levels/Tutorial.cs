@@ -17,6 +17,8 @@ namespace Slip.Levels
         Room room4 = new Room(29, 29);
         MonsterRoom room4MonsterRoom;
         Room room5 = new Room(7, 16);
+        Room room6 = new Room(13, 13);
+        Room room7 = new Room(20, 20);
 
         public override Room SetupLevel(Player player)
         {
@@ -25,10 +27,12 @@ namespace Slip.Levels
             Vector2 room3Start = Room.TileToWorldPos(new Vector2(6.5f, room3.height * 0.5f));
             Vector2 room4Start = Room.TileToWorldPos(new Vector2(room4.width * 0.5f, room4.height - 2.5f));
             Vector2 room5Start = Room.TileToWorldPos(new Vector2(room5.width * 0.5f, room5.height - 2.5f));
+            Vector2 room6Start = Room.TileToWorldPos(new Vector2(room6.width * 0.5f, room6.height - 2.5f));
+            Vector2 room7Start = Room.TileToWorldPos(new Vector2(room7.width * 0.5f, room7.height - 2.5f));
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
-            start.AddPuzzle(1, 1, new Portal(room5, room5Start));
+            start.AddPuzzle(1, 1, new Portal(room6, room6Start));
 
             room1.SetupFloorsAndWalls();
             room1.SetWall(room1.width / 2, room1.height - 7, 2);
@@ -101,7 +105,20 @@ namespace Slip.Levels
             FixedTurret fixedTurret = new FixedTurret(Tile.tileSize * new Vector2(1.5f, 1.5f), new Vector2(0f, 4f));
             fixedTurret.maxShootTimer = 120;
             room5.enemies.Add(fixedTurret);
-            room5.AddPuzzle(5, 1, new Portal(room1, room1Start));
+            room5.AddPuzzle(5, 1, new Portal(room6, room6Start));
+
+            room6.SetupFloorsAndWalls(2);
+            room6.AddPuzzle(room6Start, new Checkpoint());
+            for (int k = 3; k <= 9; k += 2)
+            {
+                room6.SetWall(3, k, 1);
+                room6.SetWall(room6.width - 4, k, 1);
+            }
+            room6.AddPuzzle(room6.width / 2, room6.height / 2, new LifeCapsule());
+            room6.AddPuzzle(room6.width / 2, 2, new Portal(room7, room7Start));
+
+            room7.OnEnter += Room7Enter;
+            room7.SetupFloorsAndWalls();
 
             return start;
         }
@@ -194,6 +211,13 @@ namespace Slip.Levels
             ((Door)room.tiles[5, 5].puzzle).Close();
         }
 
+        private void Room7Enter(Room room, Player player)
+        {
+            room.cameraEvent = new CameraEvent(
+                Room.TileToWorldPos(new Vector2(room.width * 0.5f, 2.5f)),
+                (Room r, Player p, int time) => { }, 60);
+        }
+
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -203,6 +227,7 @@ namespace Slip.Levels
             SilverDoor.LoadContent(loader);
             Switch.LoadContent(loader);
             Lever.LoadContent(loader);
+            LifeCapsule.LoadContent(loader);
             Spider.LoadContent(loader);
             Turret.LoadContent(loader);
             FixedTurret.LoadContent(loader);
