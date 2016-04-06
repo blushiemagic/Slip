@@ -9,6 +9,7 @@ namespace Slip
         public Vector2 position;
         public Vector2? defaultPosition = null;
         public float size;
+        public bool boss;
         public int life = 1;
         public bool invincible = false;
         public int hurtCool = 0;
@@ -24,11 +25,19 @@ namespace Slip
             }
         }
 
+        public bool IsHurt
+        {
+            get
+            {
+                return hurtCool > 0;
+            }
+        }
+
         public bool CanBeHit
         {
             get
             {
-                return !invincible && hurtCool <= 0;
+                return !invincible && !IsHurt;
             }
         }
 
@@ -66,6 +75,7 @@ namespace Slip
                     Kill(room, player);
                     return true;
                 }
+                hurtCool = boss ? 180 : 60;
             }
             return false;
         }

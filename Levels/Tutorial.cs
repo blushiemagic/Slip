@@ -19,6 +19,7 @@ namespace Slip.Levels
         Room room5 = new Room(7, 16);
         Room room6 = new Room(13, 13);
         Room room7 = new Room(20, 20);
+        TutorialBoss boss;
 
         public override Room SetupLevel(Player player)
         {
@@ -119,6 +120,9 @@ namespace Slip.Levels
 
             room7.OnEnter += Room7Enter;
             room7.SetupFloorsAndWalls();
+            boss = new TutorialBoss(Tile.tileSize * new Vector2(room7.width * 0.5f, 2.5f),
+                Tile.tileSize * 0.5f * new Vector2(room7.width, room7.height));
+            room7.enemies.Add(boss);
 
             return start;
         }
@@ -216,6 +220,7 @@ namespace Slip.Levels
             room.cameraEvent = new CameraEvent(
                 Room.TileToWorldPos(new Vector2(room.width * 0.5f, 2.5f)),
                 (Room r, Player p, int time) => { }, 60);
+            boss.Reset();
         }
 
         public override void LoadContent(ContentManager loader)
@@ -231,6 +236,7 @@ namespace Slip.Levels
             Spider.LoadContent(loader);
             Turret.LoadContent(loader);
             FixedTurret.LoadContent(loader);
+            TutorialBoss.LoadContent(loader);
         }
     }
 }

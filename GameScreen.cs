@@ -52,7 +52,7 @@ namespace Slip
             foreach (Enemy enemy in currentRoom.enemies)
             {
                 enemy.UpdateEnemy(currentRoom, player);
-                if (enemy.Collides(player))
+                if (!enemy.IsHurt && enemy.Collides(player))
                 {
                     player.TakeDamage(1);
                 }
