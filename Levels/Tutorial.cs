@@ -15,9 +15,7 @@ namespace Slip.Levels
         Room room2 = new Room(30, 9);
         Room room3 = new Room(30, 9);
         Room room4 = new Room(29, 29);
-
-        bool room4MonsterRoomClear = false;
-        List<Enemy> room4MonsterRoomEnemies = new List<Enemy>(4);
+		MonsterRoom room4MonsterRoom;
 
         public override Room SetupLevel(Player player)
         {
@@ -74,7 +72,8 @@ namespace Slip.Levels
             room4.AddPuzzle(20, 3, new BlueDoor(false));
             room4.AddPuzzle(24, 3, new SilverKey());
             room4.AddPuzzle(24, 20, new SilverDoor(true));
-            Puzzle puzzle = new InvisibleSwitch(Room4MonsterRoom);
+			CreateRoom4MonsterRoom();
+            Puzzle puzzle = new InvisibleSwitch(room4MonsterRoom.DoAction);
             room4.AddPuzzle(9, 19, puzzle);
             room4.AddPuzzle(10, 18, puzzle);
             room4.AddPuzzle(11, 19, puzzle);
@@ -94,67 +93,52 @@ namespace Slip.Levels
             });
         }
 
-        private void Room4MonsterRoom(Room room, Player player)
+        private void CreateRoom4MonsterRoom()
         {
-            List<CameraEvent> events = new List<CameraEvent>();
-            Vector2 cameraTarget1 = Room.TileToWorldPos(new Vector2(10.5f, 20.5f));
-            events.Add(new CameraEvent(cameraTarget1, (Room r, Player p, int time) =>
-            {
-                Door door = (Door)r.tiles[10, 20].puzzle;
-                door.Close();
-            }));
-            Vector2 cameraTarget2 = Room.TileToWorldPos(new Vector2(10.5f, 10.5f));
-            Enemy.DeathAction onDeath = new Enemy.DeathAction((Enemy e, Room r, Player p) =>
-            {
-                room4MonsterRoomEnemies.Remove(e);
-                if (room4MonsterRoomEnemies.Count == 0)
-                {
-                    Vector2 camTarget = Room.TileToWorldPos(new Vector2(20.5f, 3.5f));
-                    List<CameraEvent> evs = new List<CameraEvent>();
-                    evs.Add(new CameraEvent(cameraTarget1, (Room r2, Player p2, int time) =>
-                    {
-                        Door door = (Door)r2.tiles[10, 20].puzzle;
-                        door.Open();
-                    }));
-                    evs.Add(new CameraEvent(camTarget, (Room r2, Player p2, int time) =>
-                    {
-                        Door door = (Door)r2.tiles[20, 3].puzzle;
-                        door.Open();
-                    }));
-                    r.cameraEvent = new CameraChainEvent(evs);
-                    room4MonsterRoomClear = true;
-                }
-            });
-            events.Add(new CameraEvent(cameraTarget2, (Room r, Player p, int time) =>
-            {
-                Enemy enemy = new Turret(Room.TileToWorldPos(new Vector2(5.5f, 7.5f)));
-                enemy.temporary = true;
-                enemy.OnDeath += onDeath;
-                room4MonsterRoomEnemies.Add(enemy);
-                enemy = new Turret(Room.TileToWorldPos(new Vector2(15.5f, 7.5f)));
-                enemy.temporary = true;
-                enemy.OnDeath += onDeath;
-                room4MonsterRoomEnemies.Add(enemy);
-                enemy = new Spider(Room.TileToWorldPos(new Vector2(5.5f, 13.5f)));
-                enemy.temporary = true;
-                enemy.OnDeath += onDeath;
-                room4MonsterRoomEnemies.Add(enemy);
-                enemy = new Spider(Room.TileToWorldPos(new Vector2(15.5f, 13.5f)));
-                enemy.temporary = true;
-                enemy.OnDeath += onDeath;
-                room4MonsterRoomEnemies.Add(enemy);
-                room4.enemies.AddRange(room4MonsterRoomEnemies);
-            }));
-            room.cameraEvent = new CameraChainEvent(events);
+			Vector2 cameraTarget1 = Room.TileToWorldPos(new Vector2(10.5f, 20.5f));
+			MonsterRoom.CreateStartEvent createStart = (Room room, Player player) =>
+			{
+				List<CameraEvent> events = new List<CameraEvent>();
+				events.Add(new CameraEvent(cameraTarget1, (Room r, Player p, int time) =>
+				{
+					Door door = (Door)r.tiles[10, 20].puzzle;
+					door.Close();
+				}));
+				return events;
+			};
+            Vector2 spawnEnemyCamera = Room.TileToWorldPos(new Vector2(10.5f, 10.5f));
+			MonsterRoom.CreateEnemiesEvent createEnemies = (Room r, Player p, List<Enemy> enemies) =>
+			{
+				enemies.Add(new Turret(Room.TileToWorldPos(new Vector2(5.5f, 7.5f))));
+				enemies.Add(new Turret(Room.TileToWorldPos(new Vector2(15.5f, 7.5f))));
+				enemies.Add(new Spider(Room.TileToWorldPos(new Vector2(5.5f, 13.5f))));
+				enemies.Add(new Spider(Room.TileToWorldPos(new Vector2(15.5f, 13.5f))));
+			};
+			MonsterRoom.CreateEndEvent createEnd = (Room room, Player player) =>
+			{
+				List<CameraEvent> events = new List<CameraEvent>();
+				events.Add(new CameraEvent(cameraTarget1, (Room r, Player p, int time) =>
+				{
+					Door door = (Door)r.tiles[10, 20].puzzle;
+					door.Open();
+				}));
+				Vector2 camTarget = Room.TileToWorldPos(new Vector2(20.5f, 3.5f));
+				events.Add(new CameraEvent(camTarget, (Room r, Player p, int time) =>
+				{
+					Door door = (Door)r.tiles[20, 3].puzzle;
+					door.Open();
+				}));
+				return events;
+			};
+			room4MonsterRoom = new MonsterRoom(room4, createStart, spawnEnemyCamera, createEnemies, createEnd);
         }
 
         private void Room4Exit(Room room, Player player)
         {
-            if (!room4MonsterRoomClear)
+            if (!room4MonsterRoom.cleared)
             {
                 ((InvisibleSwitch)room.tiles[10, 18].puzzle).pressed = false;
                 ((Door)room.tiles[10, 20].puzzle).Open();
-                room4MonsterRoomEnemies.Clear();
             }
         }
 

@@ -5,10 +5,9 @@ namespace Slip.Puzzles
     public class InvisibleSwitch : Puzzle
     {
         public bool pressed = false;
-        public delegate void SwitchAction(Room room, Player player);
-        private SwitchAction action;
+        private Switch.SwitchAction action;
 
-        public InvisibleSwitch(SwitchAction action)
+        public InvisibleSwitch(Switch.SwitchAction action)
         {
             this.action = action;
         }

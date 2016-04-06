@@ -175,4 +175,55 @@ namespace Slip
             }
         }
     }
+
+	public class MonsterRoom
+	{
+		public delegate List<CameraEvent> CreateStartEvent(Room room, Player player);
+		private CreateStartEvent CreateStart;
+		private Vector2 spawnEnemyCamera;
+		public delegate void CreateEnemiesEvent(Room room, Player player, List<Enemy> enemies);
+		private CreateEnemiesEvent CreateEnemies;
+		private List<Enemy> enemies;
+		public delegate List<CameraEvent> CreateEndEvent(Room room, Player player);
+		private CreateEndEvent CreateEnd;
+		public bool cleared;
+
+		public MonsterRoom(Room room, CreateStartEvent createStart, Vector2 spawnEnemyCamera,
+			CreateEnemiesEvent createEnemies, CreateEndEvent createEnd)
+		{
+			this.CreateStart = createStart;
+			this.spawnEnemyCamera = spawnEnemyCamera;
+			this.CreateEnemies = createEnemies;
+			this.enemies = new List<Enemy>();
+			this.CreateEnd = createEnd;
+			this.cleared = false;
+			room.OnExit += (Room r, Player player) => this.enemies.Clear();
+		}
+
+		public void DoAction(Room room, Player player)
+		{
+			List<CameraEvent> startEvents = CreateStart(room, player);
+			List<CameraEvent> endEvents = CreateEnd(room, player);
+			Enemy.DeathAction onDeath = (Enemy e, Room r, Player p) =>
+			{
+				enemies.Remove(e);
+				if (enemies.Count == 0)
+				{
+					r.cameraEvent = new CameraChainEvent(endEvents);
+					cleared = true;
+				}
+			};
+			startEvents.Add(new CameraEvent(spawnEnemyCamera, (Room r, Player p, int time) =>
+			{
+				CreateEnemies(r, p, enemies);
+				foreach (Enemy e in enemies)
+				{
+					e.temporary = true;
+					e.OnDeath += onDeath;
+					r.enemies.Add(e);
+				}
+			}));
+			room.cameraEvent = new CameraChainEvent(startEvents);
+		}
+	}
 }
