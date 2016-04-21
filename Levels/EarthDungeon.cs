@@ -8,7 +8,7 @@ using Slip.Puzzles;
 
 namespace Slip.Levels
 {
-    public class FirstDungeon : GameScreen
+    public class EarthDungeon : GameScreen
     {
         Room room1 = new Room(18, 7);
         Room room2 = new Room(10, 10);
@@ -68,10 +68,15 @@ namespace Slip.Levels
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
-            LoadTileset("FirstDungeon", 1, 1, loader);
+            LoadTileset("EarthDungeon", 1, 1, loader);
             Turret.LoadContent(loader);
             BrownDoor.LoadContent(loader);
             Spider.LoadContent(loader);
+        }
+
+        public override Color BackgroundColor()
+        {
+            return Color.DarkGoldenrod;
         }
     }
 }

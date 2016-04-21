@@ -56,7 +56,7 @@
     <Compile Include="Puzzles\SilverKey.cs" />
     <Compile Include="Enemies\Spider.cs" />
     <Compile Include="KeyControl.cs" />
-    <Compile Include="Levels\FirstDungeon.cs" />
+    <Compile Include="Levels\EarthDungeon.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ObjectList.cs" />
@@ -167,10 +167,10 @@
     <Content Include="Content\BrownDoorOpenVertical.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\FirstDungeon\Floor1.png">
+    <Content Include="Content\EarthDungeon\Floor1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\FirstDungeon\Floor2.png">
+    <Content Include="Content\EarthDungeon\Floor2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\BrownDoorClosed.png">
@@ -212,7 +212,7 @@
     <Content Include="Content\Tutorial\Wall2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\FirstDungeon\Wall1.png">
+    <Content Include="Content\EarthDungeon\Wall1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Floor2.png">
