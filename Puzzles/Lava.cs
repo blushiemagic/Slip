@@ -39,7 +39,15 @@ namespace Slip.Puzzles
 
         public override void OnPlayerCollide(Room room, int x, int y, Player player)
         {
-            player.TakeDamage(10);
+            const float offset = 0.25f;
+            const float size = Tile.tileSize * (1 - 2 * offset);
+            Hitbox lavaBox = new Hitbox(Tile.tileSize * new Vector2(x + offset, y + offset), size, size);
+            Hitbox playerBox = player.hitbox;
+            if (playerBox.topRight.X >= lavaBox.bottomLeft.X && playerBox.topLeft.X <= lavaBox.bottomRight.X
+                && playerBox.bottomLeft.Y >= lavaBox.topLeft.Y && playerBox.topLeft.Y <= lavaBox.bottomLeft.Y)
+            {
+                player.TakeDamage(10);
+            }
         }
 
         public static void LoadContent(ContentManager loader)
