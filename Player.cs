@@ -135,7 +135,14 @@ namespace Slip
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
-                velocity *= 4f;
+                if (Main.IsControlHeld(KeyControl.Focus))
+                {
+                    velocity *= 1.5f;
+                }
+                else
+                {
+                    velocity *= 4f;
+                }
                 Helper.GetDirection(velocity, ref direction);
                 bool collided;
                 TopLeft = Collision.MovePos(TopLeft, size, size, velocity, room, out collided);

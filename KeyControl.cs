@@ -10,6 +10,7 @@ namespace Slip
         Down,
         Right,
         Action,
+        Focus,
         Debug,
         Count
     }
