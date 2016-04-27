@@ -11,7 +11,7 @@ namespace Slip.Levels
     public class EarthDungeon : GameScreen
     {
         Room room1 = new Room(18, 7);
-        Room room2 = new Room(10, 10);
+        Room room2 = new Room(20, 20);
         Room room3 = new Room(30, 5);
         Room room4 = new Room(5, 5);
 
@@ -36,14 +36,22 @@ namespace Slip.Levels
             // Room 2 contents
             // Ideally, we would want switches in this room to activate the portal to the next room. 
             room2.SetupFloorsAndWalls();
+            room2.tiles[room2.width - 2, room2.height - 3].Wall = 1;
+            room2.tiles[room2.width - 3, room2.height - 3].Wall = 1;
 
-            room2.enemies.Add(new Turret(Room.TileToWorldPos(5, 6)));
-            room2.enemies.Add(new Turret(Room.TileToWorldPos(6, 5)));
-            room2.enemies.Add(new Turret(Room.TileToWorldPos(4, 5)));
-            room2.enemies.Add(new Turret(Room.TileToWorldPos(5, 4)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(10, 12)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(11, 11)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(12, 10)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(11, 9)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(8, 10)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(9, 11)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(9, 9)));
+            room2.enemies.Add(new Turret(Room.TileToWorldPos(10, 8)));
 
             room2.AddPuzzle(room2.width - 2, room2.height - 2, new Portal(room3, Tile.tileSize * new Vector2(1.5f, 2.5f)));
             room2.AddPuzzle(1, 1, new Checkpoint());
+            room2.AddPuzzle(room2.width - 3, room2.height - 2, new BlueDoor(false));
+            room2.AddPuzzle(room2.width - 2, 2, new Switch(Room2Switch));
 
             // Room 3 contents
             // The room will have some enemies to fight. Ideally, when all the enemies are dead, the portal will open up. 
@@ -65,6 +73,12 @@ namespace Slip.Levels
             return room1;
         }
 
+        private static void Room2Switch(Room room, Player player)
+        {
+            Door door = (Door)room.tiles[room.width - 3, room.height - 2].puzzle;
+            door.Open();
+        }
+
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -72,6 +86,8 @@ namespace Slip.Levels
             Turret.LoadContent(loader);
             BrownDoor.LoadContent(loader);
             Spider.LoadContent(loader);
+            BlueDoor.LoadContent(loader);
+            Switch.LoadContent(loader);
         }
 
         public override Color BackgroundColor()
