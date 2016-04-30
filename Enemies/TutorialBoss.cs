@@ -40,7 +40,7 @@ namespace Slip.Enemies
                 angle += speed / pathRadius;
             }
             position = center + pathRadius * Helper.AngleToVector2(angle);
-            if (!IsHurt && timer >= 60)
+            if (!IsHurt && timer >= 90)
             {
                 timer = 0;
                 float rotation = Helper.Vector2ToAngle(player.position - position);

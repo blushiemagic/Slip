@@ -75,7 +75,15 @@ namespace Slip
                     Kill(room, player);
                     return true;
                 }
-                hurtCool = boss ? 180 : 60;
+                if (boss)
+                {
+                    hurtCool = 180;
+                    room.bullets.Clear();
+                }
+                else
+                {
+                    hurtCool = 60;
+                }
             }
             return false;
         }
