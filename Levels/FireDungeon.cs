@@ -15,7 +15,7 @@ namespace Slip.Levels
         Room center = new Room(21, 21);
         Room topLeft = new Room(22, 22); //lava path
         Room topRight = new Room(17, 57); //monster room
-        Room bottomLeft = new Room(22, 16); //timing
+        Room bottomLeft = new Room(20, 16); //timing
         Room bottomRight = new Room(16, 16); //switches
         MonsterRoom monsterRoom1;
         MonsterRoom monsterRoom2;
@@ -30,6 +30,8 @@ namespace Slip.Levels
             Vector2 topLeftStart = Room.TileToWorldPos(new Vector2(topLeft.width - 2.5f, topLeft.height - 2.5f));
             Vector2 centerTopRight = Room.TileToWorldPos(new Vector2(center.width - 2.5f, 2.5f));
             Vector2 topRightStart = Room.TileToWorldPos(new Vector2(topRight.width * 0.5f, topRight.height - 2.5f));
+            Vector2 centerBottomLeft = Room.TileToWorldPos(new Vector2(2.5f, center.height - 2.5f));
+            Vector2 bottomLeftStart = Room.TileToWorldPos(new Vector2(bottomLeft.width - 2.5f, bottomLeft.height - 2.5f));
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
@@ -73,13 +75,14 @@ namespace Slip.Levels
             center.AddPuzzle(center.width / 2, center.height / 2, new Checkpoint());
             center.AddPuzzle(1, 1, new Portal(topLeft, topLeftStart));
             center.AddPuzzle(center.width - 2, 1, new Portal(topRight, topRightStart));
+            center.AddPuzzle(1, center.height - 2, new Portal(bottomLeft, bottomLeftStart));
             center.FillWall(9, 9, 1, 8);
             center.FillWall(11, 11, 1, 8);
             for (int k = 2; k <= 8; k += 2)
             {
                 center.AddPuzzle(center.width / 2, k, new SilverDoor(true));
             }
-            center.AddPuzzle(center.width / 2, 5, new Goal("Fire Dungeon", Color.Brown));
+            center.AddPuzzle(center.width / 2, 3, new Goal("Fire Dungeon", Color.Brown));
 
             #region topLeft
             topLeft.SetupFloorsAndWalls(2);
@@ -288,6 +291,36 @@ namespace Slip.Levels
             topRight.OnExit += TopRightExit;
             #endregion topRight
 
+            #region bottomLeft
+            bottomLeft.SetupFloorsAndWalls(2);
+            bottomLeft.AddPuzzle(bottomLeft.width - 2, bottomLeft.height - 2, new Portal(center, centerBottomLeft));
+            bottomLeft.AddPuzzle(bottomLeft.width - 3, bottomLeft.height - 3, new Checkpoint());
+            bottomLeft.FillWall(1, 3, 1, 2);
+            bottomLeft.FillWall(6, 7, 1, 2);
+            bottomLeft.FillWall(10, 11, 1, 2);
+            bottomLeft.FillWall(14, bottomLeft.width - 1, 1, 2);
+            Boulder.Add(bottomLeft, 4, 3);
+            Boulder.Add(bottomLeft, 8, 3);
+            Boulder.Add(bottomLeft, 12, 3);
+            bottomLeft.FillWall(1, 3, 5, 5);
+            bottomLeft.FillWall(6, 7, 5, 5);
+            bottomLeft.FillWall(10, 11, 5, 5);
+            bottomLeft.FillWall(14, 15, 5, 5);
+            for (int x = 1; x <= 15; x++)
+            {
+                for (int y = 6; y <= 7; y++)
+                {
+                    bottomLeft.AddPuzzle(x, y, new Lava());
+                }
+            }
+            bottomLeft.FillWall(1, 8, 10, 10);
+            bottomLeft.AddPuzzle(9, 10, new Lever(Direction.Left, BottomLeftLever));
+            bottomLeft.FillWall(10, 15, 10, 10);
+            bottomLeft.FillWall(16, 16, 5, 10);
+            bottomLeft.AddPuzzle(1, 4, new SilverKey());
+            bottomLeft.enemies.Add(new Cannon(Room.TileToWorldPos(new Vector2(2f, 9f)), new Vector2(4f, 0f)));
+            #endregion
+
             return start;
         }
 
@@ -486,6 +519,19 @@ namespace Slip.Levels
         }
         #endregion topRightHelper
 
+        #region bottomLeftHelper
+        private static void BottomLeftLever(Room room, Player player)
+        {
+            foreach (Enemy enemy in room.enemies)
+            {
+                if (enemy is Cannon)
+                {
+                    ((Cannon)enemy).Fire(room);
+                }
+            }
+        }
+        #endregion
+
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -495,11 +541,14 @@ namespace Slip.Levels
             SilverDoor.LoadContent(loader);
             Switch.LoadContent(loader);
             Lava.LoadContent(loader);
+            Lever.LoadContent(loader);
+            Boulder.LoadContent(loader);
             LifeCapsule.LoadContent(loader);
             Spider.LoadContent(loader);
             Turret.LoadContent(loader);
             FixedTurret.LoadContent(loader);
             FireCaster.LoadContent(loader);
+            Cannon.LoadContent(loader);
         }
 
         public override Color BackgroundColor()

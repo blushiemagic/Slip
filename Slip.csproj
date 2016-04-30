@@ -39,16 +39,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bullet.cs" />
+    <Compile Include="Bullets\CannonBall.cs" />
     <Compile Include="Bullets\HomingRingBullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
     <Compile Include="Bullets\RingBullet.cs" />
+    <Compile Include="Bullets\ThrownBoulder.cs" />
     <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\Cannon.cs" />
     <Compile Include="Enemies\FireCaster.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />
     <Compile Include="Levels\FireDungeon.cs" />
+    <Compile Include="Puzzles\Boulder.cs" />
     <Compile Include="Puzzles\Goal.cs" />
     <Compile Include="Puzzles\Lava.cs" />
     <Compile Include="Puzzles\Lever.cs" />
@@ -179,6 +183,9 @@
     <Content Include="Content\SilverKey.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Boulder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\SwitchPressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -198,6 +205,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\TutorialBoss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cannon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\CannonBall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Wall5.png">

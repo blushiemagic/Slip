@@ -66,11 +66,14 @@ namespace Slip.Bullets
             {
                 position += velocity;
             }
+            PostUpdate(room, player);
             timeLeft--;
             return timeLeft < 0;
         }
 
         public virtual void UpdateVelocity(Room room, Player player) { }
+
+        public virtual void PostUpdate(Room room, Player player) { }
 
         public override void Draw(GameScreen screen, Main main)
         {
