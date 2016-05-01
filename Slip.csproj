@@ -57,6 +57,7 @@
     <Compile Include="Puzzles\Lava.cs" />
     <Compile Include="Puzzles\Lever.cs" />
     <Compile Include="Puzzles\LifeCapsule.cs" />
+    <Compile Include="Puzzles\LightBulb.cs" />
     <Compile Include="Puzzles\SilverKey.cs" />
     <Compile Include="Enemies\Spider.cs" />
     <Compile Include="KeyControl.cs" />
@@ -105,6 +106,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\LightBulbOn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\LightBulbOff.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Fire.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

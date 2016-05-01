@@ -10,7 +10,7 @@ namespace Slip.Puzzles
         public Texture2D closedTexture;
         public Texture2D openVerticalTexture;
         public Texture2D openHorizontalTexture;
-        protected bool open = false;
+        public bool open = false;
         private bool vertical;
 
         public Door(bool vertical, bool open = false)

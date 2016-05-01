@@ -16,7 +16,7 @@ namespace Slip.Levels
         Room topLeft = new Room(22, 22); //lava path
         Room topRight = new Room(17, 57); //monster room
         Room bottomLeft = new Room(20, 16); //timing
-        Room bottomRight = new Room(16, 16); //switches
+        Room bottomRight = new Room(21, 21); //switches
         MonsterRoom monsterRoom1;
         MonsterRoom monsterRoom2;
         MonsterRoom monsterRoom3;
@@ -32,6 +32,8 @@ namespace Slip.Levels
             Vector2 topRightStart = Room.TileToWorldPos(new Vector2(topRight.width * 0.5f, topRight.height - 2.5f));
             Vector2 centerBottomLeft = Room.TileToWorldPos(new Vector2(2.5f, center.height - 2.5f));
             Vector2 bottomLeftStart = Room.TileToWorldPos(new Vector2(bottomLeft.width - 2.5f, bottomLeft.height - 2.5f));
+            Vector2 centerBottomRight = Room.TileToWorldPos(new Vector2(center.width - 2.5f, center.height - 2.5f));
+            Vector2 bottomRightStart = Room.TileToWorldPos(new Vector2(2.5f, bottomRight.height - 2.5f));
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
@@ -76,13 +78,14 @@ namespace Slip.Levels
             center.AddPuzzle(1, 1, new Portal(topLeft, topLeftStart));
             center.AddPuzzle(center.width - 2, 1, new Portal(topRight, topRightStart));
             center.AddPuzzle(1, center.height - 2, new Portal(bottomLeft, bottomLeftStart));
+            center.AddPuzzle(center.width - 2, center.height - 2, new Portal(bottomRight, bottomRightStart));
             center.FillWall(9, 9, 1, 8);
             center.FillWall(11, 11, 1, 8);
             for (int k = 2; k <= 8; k += 2)
             {
                 center.AddPuzzle(center.width / 2, k, new SilverDoor(true));
             }
-            center.AddPuzzle(center.width / 2, 3, new Goal("Fire Dungeon", Color.Brown));
+            center.AddPuzzle(center.width / 2, 1, new Goal("Fire Dungeon", Color.Brown));
 
             #region topLeft
             topLeft.SetupFloorsAndWalls(2);
@@ -293,6 +296,7 @@ namespace Slip.Levels
 
             #region bottomLeft
             bottomLeft.SetupFloorsAndWalls(2);
+            bottomLeft.FillFloor(1, 15, 1, 9);
             bottomLeft.AddPuzzle(bottomLeft.width - 2, bottomLeft.height - 2, new Portal(center, centerBottomLeft));
             bottomLeft.AddPuzzle(bottomLeft.width - 3, bottomLeft.height - 3, new Checkpoint());
             bottomLeft.FillWall(1, 3, 1, 2);
@@ -319,6 +323,25 @@ namespace Slip.Levels
             bottomLeft.FillWall(16, 16, 5, 10);
             bottomLeft.AddPuzzle(1, 4, new SilverKey());
             bottomLeft.enemies.Add(new Cannon(Room.TileToWorldPos(new Vector2(2f, 9f)), new Vector2(4f, 0f)));
+            #endregion
+
+            #region bottomRight
+            bottomRight.SetupFloorsAndWalls();
+            bottomRight.FillFloor(3, bottomRight.width - 4, 3, bottomRight.height - 4, 2);
+            bottomRight.AddPuzzle(1, bottomRight.height - 2, new Portal(center, centerBottomRight));
+            bottomRight.AddPuzzle(2, bottomRight.height - 3, new Checkpoint());
+            bottomRight.FillWall(bottomRight.width - 4, bottomRight.width - 2,
+                bottomRight.height - 3, bottomRight.height - 3);
+            bottomRight.AddPuzzle(bottomRight.width - 4, bottomRight.height - 2, new BlueDoor(false));
+            bottomRight.AddPuzzle(bottomRight.width - 2, bottomRight.height - 2, new SilverKey());
+            for (int x = 5; x <= 15; x += 5)
+            {
+                for (int y = 5; y <= 15; y += 5)
+                {
+                    bottomRight.AddPuzzle(x, y, new Lever(BottomRightLever(x, y)));
+                    bottomRight.AddPuzzle(x, y - 1, new LightBulb());
+                }
+            }
             #endregion
 
             return start;
@@ -532,6 +555,54 @@ namespace Slip.Levels
         }
         #endregion
 
+        #region bottomRightHelper
+        private static Switch.SwitchAction BottomRightLever(int x, int y)
+        {
+            return (Room room, Player player) =>
+            {
+                if (y > 5)
+                {
+                    ((LightBulb)room.tiles[x, y - 6].puzzle).Switch();
+                }
+                if (x > 5)
+                {
+                    ((LightBulb)room.tiles[x - 5, y - 1].puzzle).Switch();
+                }
+                ((LightBulb)room.tiles[x, y - 1].puzzle).Switch();
+                if (x < 15)
+                {
+                    ((LightBulb)room.tiles[x + 5, y - 1].puzzle).Switch();
+                }
+                if (y < 15)
+                {
+                    ((LightBulb)room.tiles[x, y + 4].puzzle).Switch();
+                }
+                bool flag = true;
+                for (int i = 5; i <= 15; i += 5)
+                {
+                    for (int j = 4; j <= 14; j += 5)
+                    {
+                        LightBulb lightBulb = room.tiles[i, j].puzzle as LightBulb;
+                        if (lightBulb != null && !lightBulb.light)
+                        {
+                            flag = false;
+                        }
+                    }
+                }
+                Door door = (Door)room.tiles[room.width - 4, room.height - 2].puzzle;
+                if (flag && !door.open)
+                {
+                    room.cameraEvent = new CameraEvent(Room.TileToWorldPos(
+                        new Vector2(room.width - 3.5f, room.height - 1.5f)),
+                        (Room r, Player p, int time) =>
+                        {
+                            door.Open();
+                        });
+                }
+            };
+        }
+        #endregion
+
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -543,6 +614,7 @@ namespace Slip.Levels
             Lava.LoadContent(loader);
             Lever.LoadContent(loader);
             Boulder.LoadContent(loader);
+            LightBulb.LoadContent(loader);
             LifeCapsule.LoadContent(loader);
             Spider.LoadContent(loader);
             Turret.LoadContent(loader);
