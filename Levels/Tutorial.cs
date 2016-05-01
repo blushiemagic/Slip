@@ -220,7 +220,7 @@ namespace Slip.Levels
         {
             room.cameraEvent = new CameraEvent(
                 Room.TileToWorldPos(new Vector2(room.width * 0.5f, 2.5f)),
-                (Room r, Player p, int time) => { }, 60);
+                (Room r, Player p, int time) => { }, 30);
             boss.Reset();
         }
 

@@ -19,6 +19,7 @@ namespace Slip.Levels
         Room bottomRight = new Room(21, 21); //switches
         Room top = new Room(17, 25);
         Room rest = new Room(13, 13);
+        Room bossRoom = new Room(30, 30);
         MonsterRoom monsterRoom1;
         MonsterRoom monsterRoom2;
         MonsterRoom monsterRoom3;
@@ -41,6 +42,7 @@ namespace Slip.Levels
             Vector2 topStart = Room.TileToWorldPos(new Vector2(top.width * 0.5f, top.height - 2.5f));
             Vector2 topEnd = Room.TileToWorldPos(new Vector2(top.width * 0.5f, 2.5f));
             Vector2 restStart = Room.TileToWorldPos(new Vector2(rest.width * 0.5f, rest.height - 2.5f));
+            Vector2 bossStart = Room.TileToWorldPos(new Vector2(bossRoom.width * 0.5f, bossRoom.height - 2.5f));
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
@@ -93,7 +95,6 @@ namespace Slip.Levels
                 center.AddPuzzle(center.width / 2, k, new SilverDoor(true));
             }
             center.AddPuzzle(center.width / 2, 1, new Portal(top, topStart));
-            //center.AddPuzzle(center.width / 2, 1, new Goal("Fire Dungeon", Color.Brown));
 
             #region topLeft
             topLeft.SetupFloorsAndWalls(2);
@@ -405,6 +406,7 @@ namespace Slip.Levels
             #endregion top
 
             rest.SetupFloorsAndWalls();
+            rest.FillFloor(5, 7, 1, rest.height - 2, 2);
             rest.AddPuzzle(rest.width / 2, rest.height - 2, new Portal(top, topEnd));
             rest.AddPuzzle(rest.width / 2, rest.height - 3, new Checkpoint());
             for (int k = 3; k <= 9; k += 2)
@@ -413,7 +415,10 @@ namespace Slip.Levels
                 rest.SetWall(rest.width - 4, k, 1);
             }
             rest.AddPuzzle(rest.width / 2, rest.height / 2, new LifeCapsule());
-            rest.AddPuzzle(rest.width / 2, 2, new Portal(rest, restStart));
+            rest.AddPuzzle(rest.width / 2, 2, new Portal(bossRoom, bossStart));
+
+            bossRoom.SetupFloorsAndWalls();
+            bossRoom.OnEnter += BossRoomEnter;
 
             return start;
         }
@@ -732,6 +737,55 @@ namespace Slip.Levels
             }
         }
         #endregion topHelper
+
+        #region bossHelper
+        private void ResetBossRoom()
+        {
+            for (int x = 0; x < bossRoom.width; x++)
+            {
+                for (int y = 0; y < bossRoom.height; y++)
+                {
+                    bossRoom.RemovePuzzle(x, y);
+                }
+            }
+            for (int x = bossRoom.width / 2 - 2; x < bossRoom.width / 2 + 2; x++)
+            {
+                bossRoom.AddPuzzle(x, bossRoom.height / 2 - 2, new Lava());
+                bossRoom.AddPuzzle(x, bossRoom.height / 2 + 1, new Lava());
+            }
+            for (int y = bossRoom.height / 2 - 1; y < bossRoom.height / 2 + 1; y++)
+            {
+                bossRoom.AddPuzzle(bossRoom.width / 2 - 2, y, new Lava());
+                bossRoom.AddPuzzle(bossRoom.width / 2 + 1, y, new Lava());
+            }
+            Boulder.Add(bossRoom, bossRoom.width / 2 - 1, bossRoom.height / 2 - 9);
+            Boulder.Add(bossRoom, bossRoom.width / 2 - 9, bossRoom.height / 2 - 1);
+            Boulder.Add(bossRoom, bossRoom.width / 2 + 7, bossRoom.height / 2 - 1);
+            Boulder.Add(bossRoom, bossRoom.width / 2 - 1, bossRoom.height / 2 + 7);
+        }
+
+        private void BossRoomEnter(Room room, Player player)
+        {
+            room.cameraEvent = new CameraEvent(
+                Room.TileToWorldPos(new Vector2(room.width * 0.5f, room.height * 0.5f)),
+                (Room r, Player p, int time) => { }, 30);
+            ResetBossRoom();
+        }
+
+        private void Win(Enemy enemy, Room room, Player player)
+        {
+            room.bullets.Clear();
+            for (int x = 0; x < room.width; x++)
+            {
+                for (int y = 0; y < room.height; y++)
+                {
+                    room.RemovePuzzle(x, y);
+                }
+            }
+            player.exp++;
+            room.AddPuzzle(room.width / 2, room.height / 2, new Goal("Fire Dungeon", Color.Brown));
+        }
+        #endregion
 
         public override void LoadContent(ContentManager loader)
         {
