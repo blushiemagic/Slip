@@ -34,6 +34,10 @@ namespace Slip.Enemies
             {
                 WallAttack(room, player);
             }
+            else if (phase == 1)
+            {
+                CircleAttack(room, player);
+            }
         }
 
         private void WallAttack(Room room, Player player)
@@ -109,6 +113,35 @@ namespace Slip.Enemies
                     {
                         room.bullets.Add(new FirePillar(x, y, timeLeft));
                     }
+                }
+            }
+        }
+
+        private void CircleAttack(Room room, Player player)
+        {
+            const float ringRadius = 800f;
+            const float radiusSpeed = -2f;
+            int waitTime = 30 + 30 * life;
+            if (timer % waitTime == 0 && timer <= 600)
+            {
+                float rotation = (float)(Main.rand.NextDouble() * 2 * Math.PI);
+                RingBullet bullet = new RingBullet(player.position, ringRadius, rotation, 6, 10f, fireTexture, 600);
+                bullet.radiusSpeed = radiusSpeed;
+                bullet.rotationSpeed = 0.03f - 0.005f * life;
+                if (Main.rand.Next(2) == 0)
+                {
+                    bullet.rotationSpeed *= -1f;
+                }
+                room.bullets.Add(bullet);
+            }
+            timer++;
+            if (timer >= 600 - ringRadius / radiusSpeed)
+            {
+                phase = 0;
+                timer = 0;
+                if (life > 1)
+                {
+                    life--;
                 }
             }
         }
