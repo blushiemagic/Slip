@@ -24,6 +24,7 @@ namespace Slip.Levels
         MonsterRoom monsterRoom2;
         MonsterRoom monsterRoom3;
         MonsterRoom topMonsterRoom;
+        FireBoss boss;
 
         public override Room SetupLevel(Player player)
         {
@@ -419,6 +420,9 @@ namespace Slip.Levels
 
             bossRoom.SetupFloorsAndWalls();
             bossRoom.OnEnter += BossRoomEnter;
+            boss = new FireBoss(Room.TileToWorldPos(0.5f * new Vector2(bossRoom.width, bossRoom.height)));
+            boss.OnDeath += Win;
+            bossRoom.enemies.Add(boss);
 
             return start;
         }
@@ -770,6 +774,7 @@ namespace Slip.Levels
                 Room.TileToWorldPos(new Vector2(room.width * 0.5f, room.height * 0.5f)),
                 (Room r, Player p, int time) => { }, 30);
             ResetBossRoom();
+            boss.Reset();
         }
 
         private void Win(Enemy enemy, Room room, Player player)
@@ -806,6 +811,7 @@ namespace Slip.Levels
             FireCaster.LoadContent(loader);
             FireWizard.LoadContent(loader);
             Cannon.LoadContent(loader);
+            FireBoss.LoadContent(loader);
         }
 
         public override Color BackgroundColor()

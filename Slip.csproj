@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Bullet.cs" />
     <Compile Include="Bullets\CannonBall.cs" />
+    <Compile Include="Bullets\FirePillar.cs" />
     <Compile Include="Bullets\HomingRingBullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
     <Compile Include="Bullets\RingBullet.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\Cannon.cs" />
+    <Compile Include="Enemies\FireBoss.cs" />
     <Compile Include="Enemies\FireCaster.cs" />
     <Compile Include="Enemies\FireWizard.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
@@ -107,6 +109,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\FirePillar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\FireWizard.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -141,6 +146,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\LeverUp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FirePillarWarning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\SilverDoorOpenHorizontal.png">
@@ -213,6 +221,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\FireCaster.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FireBoss.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\TutorialBoss.png">
