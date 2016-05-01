@@ -49,6 +49,7 @@
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\Cannon.cs" />
     <Compile Include="Enemies\FireCaster.cs" />
+    <Compile Include="Enemies\FireWizard.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />
     <Compile Include="Levels\FireDungeon.cs" />
@@ -106,6 +107,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\FireWizard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\LightBulbOn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

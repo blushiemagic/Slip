@@ -17,9 +17,12 @@ namespace Slip.Levels
         Room topRight = new Room(17, 57); //monster room
         Room bottomLeft = new Room(20, 16); //timing
         Room bottomRight = new Room(21, 21); //switches
+        Room top = new Room(17, 25);
+        Room rest = new Room(13, 13);
         MonsterRoom monsterRoom1;
         MonsterRoom monsterRoom2;
         MonsterRoom monsterRoom3;
+        MonsterRoom topMonsterRoom;
 
         public override Room SetupLevel(Player player)
         {
@@ -34,10 +37,14 @@ namespace Slip.Levels
             Vector2 bottomLeftStart = Room.TileToWorldPos(new Vector2(bottomLeft.width - 2.5f, bottomLeft.height - 2.5f));
             Vector2 centerBottomRight = Room.TileToWorldPos(new Vector2(center.width - 2.5f, center.height - 2.5f));
             Vector2 bottomRightStart = Room.TileToWorldPos(new Vector2(2.5f, bottomRight.height - 2.5f));
+            Vector2 centerTop = Room.TileToWorldPos(new Vector2(center.width * 0.5f, 2.5f));
+            Vector2 topStart = Room.TileToWorldPos(new Vector2(top.width * 0.5f, top.height - 2.5f));
+            Vector2 topEnd = Room.TileToWorldPos(new Vector2(top.width * 0.5f, 2.5f));
+            Vector2 restStart = Room.TileToWorldPos(new Vector2(rest.width * 0.5f, rest.height - 2.5f));
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
-            start.AddPuzzle(1, 1, new Portal(bottom, bottomStart));
+            start.AddPuzzle(1, 1, new Portal(rest, restStart));
 
             bottom.SetupFloorsAndWalls();
             bottom.AddPuzzle(bottomStart, new Checkpoint());
@@ -85,7 +92,8 @@ namespace Slip.Levels
             {
                 center.AddPuzzle(center.width / 2, k, new SilverDoor(true));
             }
-            center.AddPuzzle(center.width / 2, 1, new Goal("Fire Dungeon", Color.Brown));
+            center.AddPuzzle(center.width / 2, 1, new Portal(top, topStart));
+            //center.AddPuzzle(center.width / 2, 1, new Goal("Fire Dungeon", Color.Brown));
 
             #region topLeft
             topLeft.SetupFloorsAndWalls(2);
@@ -323,6 +331,8 @@ namespace Slip.Levels
             bottomLeft.FillWall(16, 16, 5, 10);
             bottomLeft.AddPuzzle(1, 4, new SilverKey());
             bottomLeft.enemies.Add(new Cannon(Room.TileToWorldPos(new Vector2(2f, 9f)), new Vector2(4f, 0f)));
+            bottomLeft.AddEnemyWithDefaultPos(new FireWizard(Room.TileToWorldPos(
+                new Vector2(3.5f, bottomLeft.height - 3f))));
             #endregion
 
             #region bottomRight
@@ -342,7 +352,68 @@ namespace Slip.Levels
                     bottomRight.AddPuzzle(x, y - 1, new LightBulb());
                 }
             }
+            bottomRight.AddEnemyWithDefaultPos(new FireWizard(Room.TileToWorldPos(
+                new Vector2(8.5f, bottomRight.height - 8.5f))));
             #endregion
+
+            #region top
+            top.SetupFloorsAndWalls();
+            top.AddPuzzle(top.width / 2, top.height - 2, new Portal(center, centerTop));
+            top.AddPuzzle(top.width / 2, top.height - 3, new Checkpoint());
+            for (int x = 1; x <= 3; x++)
+            {
+                for (int y = top.height - 4; y <= top.height - 2; y++)
+                {
+                    top.AddPuzzle(x, y, new Lava());
+                }
+            }
+            for (int x = 13; x <= 15; x++)
+            {
+                for (int y = top.height - 4; y <= top.height - 2; y++)
+                {
+                    top.AddPuzzle(x, y, new Lava());
+                }
+            }
+            top.FillWall(1, 7, top.height - 5, top.height - 5);
+            top.AddPuzzle(8, top.height - 5, new BlueDoor(true, true));
+            top.FillWall(9, 15, top.height - 5, top.height - 5);
+            MakeTopMonsterRoom();
+            puzzle = new InvisibleSwitch(topMonsterRoom.DoAction);
+            top.AddPuzzle(7, top.height - 6, puzzle);
+            top.AddPuzzle(8, top.height - 7, puzzle);
+            top.AddPuzzle(9, top.height - 6, puzzle);
+            top.FillFloor(4, 12, 8, top.height - 9, 2);
+            top.FillWall(1, 7, 4, 4);
+            top.AddPuzzle(8, 4, new BlueDoor(true, true));
+            top.FillWall(9, 15, 4, 4);
+            for (int x = 1; x <= 3; x++)
+            {
+                for (int y = 1; y <= 3; y++)
+                {
+                    top.AddPuzzle(x, y, new Lava());
+                }
+            }
+            top.AddPuzzle(8, 1, new Portal(rest, restStart));
+            for (int x = 13; x <= 15; x++)
+            {
+                for (int y = 1; y <= 3; y++)
+                {
+                    top.AddPuzzle(x, y, new Lava());
+                }
+            }
+            top.OnExit += TopExit;
+            #endregion top
+
+            rest.SetupFloorsAndWalls();
+            rest.AddPuzzle(rest.width / 2, rest.height - 2, new Portal(top, topEnd));
+            rest.AddPuzzle(rest.width / 2, rest.height - 3, new Checkpoint());
+            for (int k = 3; k <= 9; k += 2)
+            {
+                rest.SetWall(3, k, 1);
+                rest.SetWall(rest.width - 4, k, 1);
+            }
+            rest.AddPuzzle(rest.width / 2, rest.height / 2, new LifeCapsule());
+            rest.AddPuzzle(rest.width / 2, 2, new Portal(rest, restStart));
 
             return start;
         }
@@ -603,6 +674,65 @@ namespace Slip.Levels
         }
         #endregion
 
+        #region topHelper
+        private void MakeTopMonsterRoom()
+        {
+            Vector2 door1Camera = Room.TileToWorldPos(new Vector2(top.width * 0.5f, top.height - 4.5f));
+            Vector2 door2Camera = Room.TileToWorldPos(new Vector2(top.width * 0.5f, 4.5f));
+            MonsterRoom.CreateStartEvent createStart = (Room room, Player player) =>
+            {
+                List<CameraEvent> events = new List<CameraEvent>();
+                events.Add(new CameraEvent(door1Camera, (Room r, Player p, int time) =>
+                {
+                    ((Door)room.tiles[top.width / 2, top.height - 5].puzzle).Close();
+                }));
+                events.Add(new CameraEvent(door2Camera, (Room r, Player p, int time) =>
+                {
+                    ((Door)room.tiles[top.width / 2, 4].puzzle).Close();
+                }));
+                return events;
+            };
+            Vector2 spawnEnemyCamera = (door1Camera + door2Camera) / 2f;
+            MonsterRoom.CreateEnemiesEvent createEnemies = (Room room, Player player, List<Enemy> enemies) =>
+            {
+                enemies.Add(new FireWizard(spawnEnemyCamera));
+                FireCaster caster = new FireCaster(spawnEnemyCamera + Room.TileToWorldPos(-5, 0));
+                caster.maxShootTimer = 90;
+                enemies.Add(caster);
+                caster = new FireCaster(spawnEnemyCamera + Room.TileToWorldPos(0, -5));
+                caster.maxShootTimer = 90;
+                enemies.Add(caster);
+                caster = new FireCaster(spawnEnemyCamera + Room.TileToWorldPos(5, 0));
+                caster.maxShootTimer = 90;
+                enemies.Add(caster);
+            };
+            MonsterRoom.CreateEndEvent createEnd = (Room room, Player player) =>
+            {
+                List<CameraEvent> events = new List<CameraEvent>();
+                events.Add(new CameraEvent(door1Camera, (Room r, Player p, int time) =>
+                {
+                    ((Door)room.tiles[top.width / 2, top.height - 5].puzzle).Open();
+                }));
+                events.Add(new CameraEvent(door2Camera, (Room r, Player p, int time) =>
+                {
+                    ((Door)room.tiles[top.width / 2, 4].puzzle).Open();
+                }));
+                return events;
+            };
+            topMonsterRoom = new MonsterRoom(top, createStart, spawnEnemyCamera, createEnemies, createEnd);
+        }
+
+        private void TopExit(Room room, Player player)
+        {
+            ((Door)room.tiles[room.width / 2, room.height - 5].puzzle).Open();
+            ((Door)room.tiles[room.width / 2, 4].puzzle).Open();
+            if (!topMonsterRoom.cleared)
+            {
+                ((InvisibleSwitch)room.tiles[8, top.height - 7].puzzle).pressed = false;
+            }
+        }
+        #endregion topHelper
+
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -620,6 +750,7 @@ namespace Slip.Levels
             Turret.LoadContent(loader);
             FixedTurret.LoadContent(loader);
             FireCaster.LoadContent(loader);
+            FireWizard.LoadContent(loader);
             Cannon.LoadContent(loader);
         }
 

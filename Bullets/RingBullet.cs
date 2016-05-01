@@ -49,7 +49,7 @@ namespace Slip.Bullets
             radius += radiusSpeed;
             rotation += rotationSpeed;
             timeLeft--;
-            return timeLeft < 0;
+            return timeLeft < 0 || radius < 0;
         }
 
         public virtual void UpdateState(Room room, Player player) { }
