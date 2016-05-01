@@ -47,7 +47,7 @@ namespace Slip.Levels
 
             player.position = new Vector2(60f, 60f);
             start.SetupFloorsAndWalls();
-            start.AddPuzzle(1, 1, new Portal(rest, restStart));
+            start.AddPuzzle(1, 1, new Portal(bottom, bottomStart));
 
             bottom.SetupFloorsAndWalls();
             bottom.AddPuzzle(bottomStart, new Checkpoint());

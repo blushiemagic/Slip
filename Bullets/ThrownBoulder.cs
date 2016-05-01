@@ -14,11 +14,15 @@ namespace Slip.Bullets
 
         public override void PostUpdate(Room room, Player player)
         {
-            foreach (Enemy enemy in room.enemies)
+            for (int k = 0; k < room.enemies.Count; k++)
             {
+                Enemy enemy = room.enemies[k];
                 if (Vector2.Distance(enemy.position, position) <= radius + enemy.radius)
                 {
-                    enemy.TakeDamage(1, room, player);
+                    if (enemy.TakeDamage(1, room, player))
+                    {
+                        k--;
+                    }
                 }
             }
         }

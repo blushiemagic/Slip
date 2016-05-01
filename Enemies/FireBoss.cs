@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Slip.Bullets;
+using Slip.Puzzles;
 
 namespace Slip.Enemies
 {
@@ -32,11 +33,23 @@ namespace Slip.Enemies
             }
             if (phase == 0)
             {
+                if (timer == 0)
+                {
+                    CheckBoulders(room);
+                }
                 WallAttack(room, player);
             }
             else if (phase == 1)
             {
                 CircleAttack(room, player);
+            }
+            else if (phase == 2)
+            {
+                LavaAttack(room, player);
+            }
+            else if (phase == 3)
+            {
+                FireballAttack(room, player);
             }
         }
 
@@ -137,12 +150,68 @@ namespace Slip.Enemies
             timer++;
             if (timer >= 600 - ringRadius / radiusSpeed)
             {
-                phase = 0;
+                phase++;
                 timer = 0;
-                if (life > 1)
+            }
+        }
+
+        private void LavaAttack(Room room, Player player)
+        {
+            if (timer > 0 && timer % 120 == 0)
+            {
+                int playerX = (int)(player.position.X / Tile.tileSize);
+                int playerY = (int)(player.position.Y / Tile.tileSize);
+                for (int x = playerX - 2; x <= playerX + 2; x++)
                 {
-                    life--;
+                    for (int y = playerY - 2; y <= playerY + 2; y++)
+                    {
+                        room.bullets.Add(new FirePillar(x, y, 120, x == playerX && y == playerY));
+                    }
                 }
+            }
+            timer++;
+            if (timer >= 120 * (7 - life))
+            {
+                phase++;
+                timer = 0;
+            }
+        }
+
+        private void FireballAttack(Room room, Player player)
+        {
+            if (timer == 0)
+            {
+                Vector2 offset = player.position - position;
+                offset.Normalize();
+                offset *= 4f;
+                room.bullets.Add(new Fireball(this, position, offset));
+                timer++;
+            }
+        }
+
+        public void RedoAttacks()
+        {
+            phase = 0;
+            timer = -180;
+        }
+
+        private void CheckBoulders(Room room)
+        {
+            if (!(room.tiles[room.width / 2 - 1, room.height / 2 - 9].puzzle is Boulder))
+            {
+                Boulder.Add(room, room.width / 2 - 1, room.height / 2 - 9);
+            }
+            if (!(room.tiles[room.width / 2 - 9, room.height / 2 - 1].puzzle is Boulder))
+            {
+                Boulder.Add(room, room.width / 2 - 9, room.height / 2 - 1);
+            }
+            if (!(room.tiles[room.width / 2 + 7, room.height / 2 - 1].puzzle is Boulder))
+            {
+                Boulder.Add(room, room.width / 2 + 7, room.height / 2 - 1);
+            }
+            if (!(room.tiles[room.width / 2 - 1, room.height / 2 + 7].puzzle is Boulder))
+            {
+                Boulder.Add(room, room.width / 2 - 1, room.height / 2 + 7);
             }
         }
 

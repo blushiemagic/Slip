@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Slip.Puzzles;
 
 namespace Slip.Bullets
 {
@@ -13,18 +14,24 @@ namespace Slip.Bullets
         public int x;
         public int y;
         public int timeLeft;
+        public bool lava;
         public const int damageTime = 30;
 
-        public FirePillar(int x, int y, int timeLeft)
+        public FirePillar(int x, int y, int timeLeft, bool lava = false)
         {
             this.x = x;
             this.y = y;
             this.timeLeft = timeLeft;
+            this.lava = lava;
         }
 
         public override bool UpdateBullet(Room room, Player player)
         {
             timeLeft--;
+            if (timeLeft == 0 && lava && room.tiles[x, y].puzzle == null)
+            {
+                room.AddPuzzle(x, y, new Lava());
+            }
             return timeLeft <= -damageTime;
         }
 

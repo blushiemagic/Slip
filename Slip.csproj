@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Bullet.cs" />
     <Compile Include="Bullets\CannonBall.cs" />
+    <Compile Include="Bullets\Fireball.cs" />
     <Compile Include="Bullets\FirePillar.cs" />
     <Compile Include="Bullets\HomingRingBullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />

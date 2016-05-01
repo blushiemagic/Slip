@@ -105,6 +105,10 @@ namespace Slip.Bullets
                     float magnitude = ((Cannon)owner).velocity.Length();
                     ((Cannon)owner).velocity *= 2f;
                 }
+                if (owner is FireBoss)
+                {
+                    ((FireBoss)owner).RedoAttacks();
+                }
                 return true;
             }
             return false;
