@@ -40,21 +40,30 @@
   <ItemGroup>
     <Compile Include="Bullet.cs" />
     <Compile Include="Bullets\EarthPillar.cs" />
+    <Compile Include="Bullets\CannonBall.cs" />
+    <Compile Include="Bullets\Fireball.cs" />
+    <Compile Include="Bullets\FirePillar.cs" />
     <Compile Include="Bullets\HomingRingBullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
     <Compile Include="Bullets\RingBullet.cs" />
+    <Compile Include="Bullets\ThrownBoulder.cs" />
     <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Enemies\EarthElemental.cs" />
+    <Compile Include="Enemies\Cannon.cs" />
+    <Compile Include="Enemies\FireBoss.cs" />
     <Compile Include="Enemies\FireCaster.cs" />
+    <Compile Include="Enemies\FireWizard.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />
     <Compile Include="Levels\FireDungeon.cs" />
+    <Compile Include="Puzzles\Boulder.cs" />
     <Compile Include="Puzzles\Goal.cs" />
     <Compile Include="Puzzles\Lava.cs" />
     <Compile Include="Puzzles\Lever.cs" />
     <Compile Include="Puzzles\LifeCapsule.cs" />
+    <Compile Include="Puzzles\LightBulb.cs" />
     <Compile Include="Puzzles\SilverKey.cs" />
     <Compile Include="Enemies\Spider.cs" />
     <Compile Include="KeyControl.cs" />
@@ -103,6 +112,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\FirePillar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FireWizard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\LightBulbOn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\LightBulbOff.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Fire.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -128,6 +149,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\LeverUp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FirePillarWarning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\SilverDoorOpenHorizontal.png">
@@ -181,6 +205,9 @@
     <Content Include="Content\SilverKey.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Boulder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\SwitchPressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -199,7 +226,16 @@
     <Content Include="Content\FireCaster.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\FireBoss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\TutorialBoss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cannon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\CannonBall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Tutorial\Wall5.png">

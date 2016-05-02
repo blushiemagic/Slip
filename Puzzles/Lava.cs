@@ -46,6 +46,7 @@ namespace Slip.Puzzles
             if (playerBox.topRight.X >= lavaBox.bottomLeft.X && playerBox.topLeft.X <= lavaBox.bottomRight.X
                 && playerBox.bottomLeft.Y >= lavaBox.topLeft.Y && playerBox.topLeft.Y <= lavaBox.bottomLeft.Y)
             {
+                player.invincible = 0;
                 player.TakeDamage(10);
             }
         }
