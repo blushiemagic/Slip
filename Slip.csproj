@@ -39,12 +39,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bullet.cs" />
+    <Compile Include="Bullets\EarthPillar.cs" />
     <Compile Include="Bullets\HomingRingBullet.cs" />
     <Compile Include="Bullets\PositionalBullet.cs" />
     <Compile Include="Bullets\RingBullet.cs" />
     <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\EarthElemental.cs" />
     <Compile Include="Enemies\FireCaster.cs" />
     <Compile Include="Enemies\FixedTurret.cs" />
     <Compile Include="Enemies\TutorialBoss.cs" />

@@ -58,11 +58,7 @@ namespace Slip.Levels
             room3.SetupFloorsAndWalls();
 
             room3.AddPuzzle(room3.width - 2, room3.height - 2, new Portal(room4, Tile.tileSize * new Vector2(1.5f, 1.5f)));
-            room3.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(10.5f, 1.5f)));
-            room3.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(10.5f, 3.5f)));
-            room3.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(15.5f, 2.5f)));
-            room3.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(20.5f, 2.5f)));
-            room3.AddEnemyWithDefaultPos(new Spider(Tile.tileSize * new Vector2(25.5f, 2.5f)));
+            room3.AddEnemyWithDefaultPos(new EarthElemental(Room.TileToWorldPos(15, 2)));
             room3.AddPuzzle(1, 2, new Checkpoint());
 
             // Room 4 contents
@@ -73,12 +69,16 @@ namespace Slip.Levels
             return room1;
         }
 
+
+        // All helper functions used in this dungeon
         private static void Room2Switch(Room room, Player player)
         {
             Door door = (Door)room.tiles[room.width - 3, room.height - 2].puzzle;
             door.Open();
         }
 
+
+        // Load images
         public override void LoadContent(ContentManager loader)
         {
             base.LoadContent(loader);
@@ -88,6 +88,7 @@ namespace Slip.Levels
             Spider.LoadContent(loader);
             BlueDoor.LoadContent(loader);
             Switch.LoadContent(loader);
+            EarthElemental.LoadContent(loader);
         }
 
         public override Color BackgroundColor()
