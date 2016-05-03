@@ -67,9 +67,9 @@ namespace Slip.Enemies
 
         public static void LoadContent(ContentManager loader)
         {
-            texture = loader.Load<Texture2D>("Turret");
-            EarthPillar = loader.Load<Texture2D>("Spider");
-            PreEarthPillar = loader.Load<Texture2D>("Turret");
+            texture = loader.Load<Texture2D>("EarthElemental");
+            EarthPillar = loader.Load<Texture2D>("EarthPillar");
+            PreEarthPillar = loader.Load<Texture2D>("WarningX");
         }
     }
 }
