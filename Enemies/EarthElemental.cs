@@ -14,9 +14,7 @@ namespace Slip.Enemies
         public static Texture2D PreEarthPillar;
         private int shootTimer;
         public int maxShootTimer = 120;
-        public float shootSpeed = 4f;
-        public int fireTime = 180;
-        private int attackType = 0;
+        private Random rnd = new Random();
 
         public Vector2 TopLeft
         {
@@ -30,9 +28,9 @@ namespace Slip.Enemies
             }
         }
 
-		public EarthElemental(Vector2 pos) : base(pos, 20f)
+		public EarthElemental(Vector2 pos, int timerStart) : base(pos, 20f)
         {
-            shootTimer = 0;
+            shootTimer = timerStart;
         }
 
         public override void Update(Room room, Player player)
@@ -40,24 +38,37 @@ namespace Slip.Enemies
             shootTimer++;
             if (shootTimer >= maxShootTimer)
             {
-                if (attackType % 2 == 0)
-                {
+                int centerPillarArbiter = rnd.Next() % 2;
+                int topPillarArbiter = rnd.Next() % 2;
+                int bottomPillarArbiter = rnd.Next() % 2;
+                int rightPillarArbiter = rnd.Next() % 2;
+                int leftPillarArbiter = rnd.Next() % 2;
 
-                    EarthPillar singlePillar = new EarthPillar(player.position, 20, PreEarthPillar, EarthPillar, maxShootTimer);
-                    room.bullets.Add(singlePillar);
-                } else
+                if (centerPillarArbiter + topPillarArbiter + bottomPillarArbiter + rightPillarArbiter + leftPillarArbiter == 5)
                 {
-                    EarthPillar topPillar = new EarthPillar(player.position + new Vector2(0, -40), 20, PreEarthPillar, EarthPillar, maxShootTimer);
-                    EarthPillar bottomPillar = new EarthPillar(player.position + new Vector2(0, 40), 20, PreEarthPillar, EarthPillar, maxShootTimer);
-                    EarthPillar rightPillar = new EarthPillar(player.position + new Vector2(40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer);
-                    EarthPillar leftPillar = new EarthPillar(player.position + new Vector2(-40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer);
-
-                    room.bullets.Add(topPillar);
-                    room.bullets.Add(bottomPillar);
-                    room.bullets.Add(rightPillar);
-                    room.bullets.Add(leftPillar);
+                    centerPillarArbiter = 0;
                 }
-                attackType++;
+
+                if (centerPillarArbiter == 0)
+                {
+                    room.bullets.Add(new EarthPillar(player.position, 20, PreEarthPillar, EarthPillar, maxShootTimer));
+                }
+                if (topPillarArbiter == 0)
+                {
+                    room.bullets.Add(new EarthPillar(player.position + new Vector2(0, -40), 20, PreEarthPillar, EarthPillar, maxShootTimer));
+                }
+                if (bottomPillarArbiter == 0)
+                {
+                    room.bullets.Add(new EarthPillar(player.position + new Vector2(0, 40), 20, PreEarthPillar, EarthPillar, maxShootTimer));
+                }
+                if (rightPillarArbiter == 0)
+                {
+                    room.bullets.Add(new EarthPillar(player.position + new Vector2(40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer));
+                }
+                if (leftPillarArbiter == 0)
+                {
+                    room.bullets.Add(new EarthPillar(player.position + new Vector2(-40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer));
+                }
                 shootTimer = 0;
             }
         }
