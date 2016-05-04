@@ -15,7 +15,7 @@ namespace Slip.Enemies
         private int shootTimer;
         public int maxShootTimer = 120;
         public float shootSpeed = 4f;
-        public int fireTime = 120;
+        public int fireTime = 180;
         private int attackType = 0;
 
         public Vector2 TopLeft
@@ -43,15 +43,19 @@ namespace Slip.Enemies
                 if (attackType % 2 == 0)
                 {
 
-                    EarthPillar singlePillar = new EarthPillar(player.position, 20, PreEarthPillar, EarthPillar, 120);
+                    EarthPillar singlePillar = new EarthPillar(player.position, 20, PreEarthPillar, EarthPillar, maxShootTimer);
                     room.bullets.Add(singlePillar);
                 } else
                 {
-                    EarthPillar topPillar = new EarthPillar(player.position + new Vector2(0, -60), 20, PreEarthPillar, EarthPillar, 120);
-                    EarthPillar bottomPillar = new EarthPillar(player.position + new Vector2(0, 60), 20, PreEarthPillar, EarthPillar, 120);
+                    EarthPillar topPillar = new EarthPillar(player.position + new Vector2(0, -40), 20, PreEarthPillar, EarthPillar, maxShootTimer);
+                    EarthPillar bottomPillar = new EarthPillar(player.position + new Vector2(0, 40), 20, PreEarthPillar, EarthPillar, maxShootTimer);
+                    EarthPillar rightPillar = new EarthPillar(player.position + new Vector2(40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer);
+                    EarthPillar leftPillar = new EarthPillar(player.position + new Vector2(-40, 0), 20, PreEarthPillar, EarthPillar, maxShootTimer);
 
                     room.bullets.Add(topPillar);
                     room.bullets.Add(bottomPillar);
+                    room.bullets.Add(rightPillar);
+                    room.bullets.Add(leftPillar);
                 }
                 attackType++;
                 shootTimer = 0;
