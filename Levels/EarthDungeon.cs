@@ -17,14 +17,16 @@ namespace Slip.Levels
         Room room3 = new Room(20, 5);
         Room room4 = new Room(16, 16);
         Room room5 = new Room(9, 20);
-        Room prepRoom = new Room(10, 10);
+        Room prepRoom = new Room(11, 11);
         Room bossRoom = new Room(20, 20);
+        EarthElemental minionElemental;
+        EarthBoss boss;
 
         public override Room SetupLevel(Player player)
         {
             Vector2 room0StartPos = Room.TileToWorldPos(new Vector2(room0.width * 0.5f, room0.height - 1.5f));
             Vector2 room2StartPos = Room.TileToWorldPos(new Vector2(room2.width - 4, room2.height - 12));
-            Vector2 room4StartPos = Room.TileToWorldPos(new Vector2(1, 1));
+            Vector2 room4StartPos = Room.TileToWorldPos(new Vector2(1.5f, 1.5f));
             Vector2 room5StartPos = Room.TileToWorldPos(new Vector2(room5.width * 0.5f, room5.height - 1.5f));
             Vector2 prepRoomStartPos = Room.TileToWorldPos(new Vector2(prepRoom.width * 0.5f, prepRoom.height - 1.5f));
             Vector2 bossRoomStartPos = Room.TileToWorldPos(new Vector2(bossRoom.width * 0.5f, bossRoom.height - 1.5f));
@@ -111,28 +113,32 @@ namespace Slip.Levels
             // Room 4 contents
             room4.SetupFloorsAndWalls();
 
-            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(8, 10), 0));
-            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(10, 8), 24));
-            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(6, 8), 48));
-            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(8, 6), 72));
-            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(8, 8), 96));
-            
-            
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(7, 1)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(8, 1)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(9, 1)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(7, 15)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(8, 15)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(9, 15)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(1, 7)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(1, 8)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(1, 9)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(15, 7)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(15, 8)));
-            room4.enemies.Add(new Turret(Room.TileToWorldPos(15, 9)));
+            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(8, 7), 0));
+            room4.enemies.Add(new EarthElemental(Room.TileToWorldPos(8, 9), 30));
+
+            for (int i = 6; i < 10; i++)
+            {
+                room4.tiles[i, 6].Wall = 1;
+                room4.tiles[i, 9].Wall = 1;
+                room4.tiles[6, i].Wall = 1;
+                room4.tiles[9, i].Wall = 1;
+            }
+
+            for (int i = 1; i < 13; i++)
+            {
+                room4.tiles[3, i].Wall = 1;
+                room4.tiles[12, i].Wall = 1;
+            }
+
+            for (int i = 3; i < 15; i++)
+            {
+                room4.tiles[6, i].Wall = 1;
+                room4.tiles[9, i].Wall = 1;
+            }
+
 
             room4.AddPuzzle(1, 1, new Checkpoint());
-            room4.AddPuzzle(room4.width - 2, room4.height - 2, new Portal(room5, room5StartPos));
+            room4.AddPuzzle(room4.width - 2, 1, new Portal(prepRoom, prepRoomStartPos));
 
             // Room 5 contents
             room5.SetupFloorsAndWalls();
@@ -140,17 +146,50 @@ namespace Slip.Levels
             // Room 6 contents
             prepRoom.SetupFloorsAndWalls();
 
+            prepRoom.AddPuzzle(prepRoomStartPos, new Checkpoint());
             prepRoom.AddPuzzle(prepRoom.width / 2, prepRoom.height / 2, new LifeCapsule());
-            prepRoom.AddPuzzle(prepRoom.width / 2, 2, new Portal(bossRoom, bossRoomStartPos));
+            prepRoom.AddPuzzle(prepRoom.width / 2, 1, new Portal(bossRoom, bossRoomStartPos));
 
             // Boss room contents
             bossRoom.SetupFloorsAndWalls();
+
+            bossRoom.OnEnter += BossRoomEnter;
+            boss = new EarthBoss(Tile.tileSize * new Vector2(bossRoom.width * 0.5f, 2.5f),
+                Tile.tileSize * 0.5f * new Vector2(bossRoom.width, bossRoom.height));
+            minionElemental = new EarthElemental(Room.TileToWorldPos(10, 10), 0);
+            boss.OnDeath += Win;
+            bossRoom.enemies.Add(boss);
+            bossRoom.enemies.Add(minionElemental);
+            for (int i = 8; i < 12; i++)
+            {
+                bossRoom.SetWall(i, 8, 1);
+                bossRoom.SetWall(i, 11, 1);
+                bossRoom.SetWall(8, i, 1);
+                bossRoom.SetWall(11, i, 1);
+            }
+
 
             // Returns the first room to be loaded
             return start;
         }
 
         // All helper functions used in this dungeon
+
+        private void BossRoomEnter(Room room, Player player)
+        {
+            room.cameraEvent = new CameraEvent(
+                Room.TileToWorldPos(new Vector2(room.width * 0.5f, 2.5f)),
+                (Room r, Player p, int time) => { }, 30);
+            boss.Reset();
+        }
+
+        private void Win(Enemy enemy, Room room, Player player)
+        {
+            room.bullets.Clear();
+            player.exp++;
+            minionElemental.Kill(room, player);
+            room.AddPuzzle(room.width / 2, 2, new Goal("Earth Dungeon", Color.DarkGoldenrod));
+        }
 
         // Load images
         public override void LoadContent(ContentManager loader)
@@ -163,6 +202,8 @@ namespace Slip.Levels
             BlueDoor.LoadContent(loader);
             Switch.LoadContent(loader);
             EarthElemental.LoadContent(loader);
+            LifeCapsule.LoadContent(loader);
+            EarthBoss.LoadContent(loader);
         }
 
         public override Color BackgroundColor()

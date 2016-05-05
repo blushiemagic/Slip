@@ -50,6 +50,7 @@
     <Compile Include="CameraChainEvent.cs" />
     <Compile Include="CameraEvent.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Enemies\EarthBoss.cs" />
     <Compile Include="Enemies\EarthElemental.cs" />
     <Compile Include="Enemies\Cannon.cs" />
     <Compile Include="Enemies\FireBoss.cs" />

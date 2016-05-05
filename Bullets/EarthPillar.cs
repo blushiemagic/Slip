@@ -50,7 +50,7 @@ namespace Slip.Bullets
 
         public override sealed bool UpdateBullet(Room room, Player player)
         {
-            if (timeLeft < totalTime * 2 / 4)
+            if (timeLeft < totalTime * 3 / 4)
             {
                 this.collision = true;
 
